@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Toolbar from '../components/Toolbar.astro';
+import Library from '../../public/icons/library.astro';
+import Search from '../../public/icons/search.astro';
+import TablaCuentos from '../components/tablaCuentos.astro';
+---
+
+<Layout title="El museo del cuento">
+	<main>		
+		<Toolbar />	
+		<div class="flex ml-[-150px]">
+			<Library />			
+			<h1>El <span class="text-gradient">museo</span> del <span class="text-gradient">cuento</span></h1>		
+		</div>
+		<div class="flex justify-end mt-[-40px] mr-[-150px]">
+			<input class="w-44 rounded" type="search" id="search-tale" name="search" placeholder=" Buscar cuento"><button class=" rounded border-solid border-2 border-white"><Search /></button>
+		</div>
+		<div class="flex justify-center mt-10">
+			<h2 class="text-5xl"><span class="text-gradient">Biblioteca</span></h2>
+		</div>
+		<div>
+			<TablaCuentos />
+		</div>
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;		
+		padding: 1rem;
+		width: 800px;
+		max-width: calc(100% - 2rem);
+		color: white;
+		font-size: 20px;
+		line-height: 1.6;
+	}	
+	h1 {
+		font-size: 4rem;
+		font-weight: 700;
+		line-height: 1;
+		text-align: center;
+		margin-bottom: 1em;		
+	}
+	.text-gradient {
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
+	}	
+</style>
+
+
