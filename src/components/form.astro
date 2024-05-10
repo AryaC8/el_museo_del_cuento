@@ -1,0 +1,64 @@
+---
+interface Props {
+	estado: string;  
+}
+
+const { estado } = Astro.props;
+---
+<form method="POST" class="grid space-y-2 text-lg" id="formLibro">
+    <label for="nombre">Nombre del cuento</label>
+    <input type="text" name="nombre">
+    <label for="autor">Autora o autor</label>
+    <input type="text" name="autor">
+    <label for="editorial">Editorial</label>
+    <input type="text" name="editorial">
+    <label for="anyo">Año</label>
+    <input type="text" name="anyo">
+    <label for="categoria">Categoría</label>
+    <input type="text" name="categoria">
+    <label for="quien">Añadido por</label>
+    <input type="text" name="quien">    
+    <div class=`${estado}`>
+        <span class="grid space-y-2 text-lg">
+            <label for="quienLoTiene">Lo tiene</label>
+            <input type="text" name="quienLoTiene">
+        </span>
+        <label>¿Está prestado a alguien?</label>
+        <div class="flex flex-cols-2 justify-around">
+            <span>
+                <input type="radio" name="prestado" id="prestadoSi" value="prestadoSi">
+                <label for="true">Está prestado</label>
+            </span>
+            <span>
+                <input type="radio" name="prestado" id="prestadoNo" value="prestadoNo" checked>
+                <label for="false">No está prestado</label>
+            </span>
+        </div>
+    </div>
+    <div id="aQuienEstaPrestado" class="hidden">
+        <span class="grid space-y-2 text-lg">
+            <label for="personaPrestado">¿A quién?</label>
+            <input type="text" name="personaPrestado">
+        </span>
+    </div>
+
+    <div class="flex justify-center">
+        <input class="submit" type="submit" value="Añadir" id="add">
+    </div>	
+</form>
+
+<style>
+    .submit{
+        background-image:linear-gradient(to right, rgb(0, 122, 31) , rgb(2, 128, 40));
+        border-radius: 10px;
+        border-color: rgb(0, 122, 31);
+        border-width: 1px;
+        box-shadow:0px 2px 5px 0 rgba(53, 233, 62, 0.274), 0 6px 20px 0 rgba(34, 170, 46, 0.404);
+        padding: 5px;
+        margin: 20px;
+        color: white;
+        width: 100px;		
+    }
+    </style>
+    
+    
