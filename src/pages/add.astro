@@ -1,17 +1,39 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
+import Form from '../components/form.astro';
 ---
 
 <Layout title="El museo del cuento - Añadir">
     <main>
         <Toolbar />	
+		<div>
+			<div class="flex justify-center text-gradient">
+				<h2 class="text-2xl m-3">Añadir cuento a la biblioteca</h2>
+			</div>
+			<Form estado = ""/>
+		</div>
     </main>
-   
-
-
-
 </Layout>
+
+<script>
+	let prestado = document.getElementsByName("prestado")	
+	let aQuienEstaPrestado = document.getElementById("aQuienEstaPrestado")
+
+	cambiarVisibilidadSeccionDependiendoDePrestado()
+
+	function cambiarVisibilidadSeccionDependiendoDePrestado() {
+		prestado[0].addEventListener("change", function(){
+		aQuienEstaPrestado?.classList.remove("hidden")
+	})
+
+	prestado[1].addEventListener("change", function(){
+		aQuienEstaPrestado?.classList.add("hidden")
+	})
+	}
+	
+</script>
+
 <style>
     main {
 		margin: auto;		
@@ -21,5 +43,12 @@ import Toolbar from '../components/Toolbar.astro';
 		color: white;
 		font-size: 20px;
 		line-height: 1.6;
+	}	
+	.text-gradient {
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
 	}	
 </style>

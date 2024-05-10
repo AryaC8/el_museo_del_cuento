@@ -1,17 +1,47 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
+import Form from '../components/form.astro';
+import TablaCuentos from '../components/tablaCuentos.astro';
 ---
 
 <Layout title="El museo del cuento - Deseados">
     <main>
         <Toolbar />	
+		<section class="" id="listaCuentosDeseados">
+			<div class="flex justify-center mt-10">
+				<h2 class="text-5xl"><span class="text-gradient">Lista de cuentos deseados</span></h2>
+			</div>
+			<div>
+				<TablaCuentos />
+			</div>
+			<span class="flex justify-end">
+				<button class="ml-1 bg-green-700 rounded-md px-2 py-1" id="buttonAddDesiredTale">          
+					Añadir deseo
+				</button>
+			</span>
+		</section>
+
+		<section class="hidden" id="formAddDesiredTale">
+			<div class="flex justify-center text-gradient">
+				<h2 class="text-2xl m-3">Añadir cuento a la lista de deseados</h2>
+			</div>
+			<Form estado = "hidden"/>
+		</section>
     </main>
-   
-
-
-
 </Layout>
+
+<script>
+	let buttonAddDesiredTale = document.getElementById("buttonAddDesiredTale")
+	let formAddDesiredTale = document.getElementById("formAddDesiredTale")
+	let listaCuentosDeseados = document.getElementById("listaCuentosDeseados")
+
+	buttonAddDesiredTale?.addEventListener("click", function(){
+		formAddDesiredTale?.classList.remove("hidden")
+		listaCuentosDeseados?.classList.add("hidden")
+	})	
+</script>
+
 <style>
     main {
 		margin: auto;		
@@ -21,5 +51,12 @@ import Toolbar from '../components/Toolbar.astro';
 		color: white;
 		font-size: 20px;
 		line-height: 1.6;
+	}	
+	.text-gradient {
+		background-image: var(--accent-gradient);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		background-position: 0%;
 	}	
 </style>
