@@ -2,20 +2,17 @@
 import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
 import Library from '../../public/icons/library.astro';
-import Search from '../../public/icons/search.astro';
 import TablaCuentos from '../components/tablaCuentos.astro';
 ---
 
 <Layout title="El museo del cuento">
 	<main>		
 		<Toolbar />	
-		<div class="flex ml-[-150px]">
+		<div class="flex ">
 			<Library />			
 			<h1>El <span class="text-gradient">museo</span> del <span class="text-gradient">cuento</span></h1>		
 		</div>
-		<div class="flex justify-end mt-[-40px] mr-[-150px]">
-			<input class="w-44 rounded" type="search" id="search-tale" name="search" placeholder=" Buscar cuento"><button class=" rounded border-solid border-2 border-white"><Search /></button>
-		</div>
+		
 		<div class="flex justify-center mt-10">
 			<h2 class="text-5xl"><span class="text-gradient">Biblioteca</span></h2>
 		</div>
@@ -26,7 +23,7 @@ import TablaCuentos from '../components/tablaCuentos.astro';
 </Layout>
 
 <style>
-	main {
+	main {		
 		margin: auto;		
 		padding: 1rem;
 		width: 800px;
