@@ -3,27 +3,41 @@ import Home from '../../public/icons/home.astro'
 import User from '../../public/icons/user.astro'
 import Category from '../../public/icons/category.astro'
 import Deseados from '../../public/icons/deseados.astro'
+import Search from '../../public/icons/search.astro';
 ---
 <nav class="flex justify-around text-white p-3 mb-5">
     <span class="flex">
         <a href="/" target="_self" rel="noopener noreferrer nofollow"><Home /></a>        
         <a href="/" class="ml-1" target="_self" rel="noopener noreferrer nofollow">Inicio</a>
     </span>   
-    <span  class="flex">
+    <!-- <span  class="flex">
         <a href="/categorias/" target="_self" rel="noopener noreferrer nofollow"><Category /></a>
         <a href="/categorias/" class="ml-1" target="_self" rel="noopener noreferrer nofollow">Categorías</a>
     </span>
     <span  class="flex">
         <a href="/colaboradoras/" target="_self" rel="noopener noreferrer nofollow"><User /></a>
         <a href="/colaboradoras/" class="ml-1" target="_self" rel="noopener noreferrer nofollow">Colaboradoras</a>
-    </span>
+    </span> -->
     <span  class="flex">
         <a href="/deseados/" target="_self" rel="noopener noreferrer nofollow"><Deseados /></a>
         <a href="/deseados/" class="ml-1" target="_self" rel="noopener noreferrer nofollow">Deseados</a>
     </span>
-    <span  class="flex">
+    <span class="flex" id="add">
         <button>            
-            <a href="/add/" class="ml-1 bg-blue-700 rounded-md px-2 py-1" target="_self" rel="noopener noreferrer nofollow">Añadir</a>
+            <a href="/add/" class="ml-1 bg-green-700 rounded-md px-2 py-1" target="_self" rel="noopener noreferrer nofollow">Añadir</a>
         </button>
     </span>   
+    <span  class="flex" id="search">
+    <div class="flex justify-end">
+        <input class="w-40 rounded" type="search" id="search-tale" name="search" placeholder=" Buscar cuento"><button class=" rounded border-solid border-2 border-white"><Search /></button>
+    </div>
+    </span>
 </nav>
+
+<style>
+    nav span:hover:not(#add, #search){
+    background-color: rgb(108, 241, 148);    
+    border-radius: 7px; 
+    color:black;  
+}
+</style>
