@@ -3,6 +3,33 @@ import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
 import Form from '../components/form.astro';
 import TablaCuentos from '../components/tablaCuentos.astro';
+
+import { db, CuentoDeseado } from 'astro:db';
+
+//TODO
+/*Generar id aleatorio*/
+
+const id: string = '2';
+
+if (Astro.request.method === 'POST') { 
+  const formData: FormData = await Astro.request.formData();  
+  const nombre = formData.get('nombre');
+  const autor = formData.get('autor');
+  const editorial = formData.get('editorial');
+  const anyo = formData.get('anyo');
+  const categoria = formData.get('categoria');
+  const anyadidoPor = formData.get('quienLoAnyade');
+ 
+
+  if (typeof id === 'string' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string') {
+    // Insertar datos de formulario en un Comment
+    await db.insert(CuentoDeseado).values({id, nombre, autor, editorial, anyo, categoria, anyadidoPor});
+  }
+}
+
+const cuentoDeseado = await db.select().from(CuentoDeseado);
+
+console.log(cuentoDeseado)
 ---
 
 <Layout title="El museo del cuento - Deseados">
@@ -13,7 +40,7 @@ import TablaCuentos from '../components/tablaCuentos.astro';
 				<h2 class="text-5xl"><span class="text-gradient">Lista de cuentos deseados</span></h2>
 			</div>
 			<div>
-				<TablaCuentos />
+				<!-- <TablaCuentos /> -->
 			</div>
 			<span class="flex justify-end">
 				<button class="ml-1 bg-green-700 rounded-md px-2 py-1" id="buttonAddDesiredTale">          
