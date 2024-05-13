@@ -7,7 +7,7 @@ const { estado } = Astro.props;
 ---
 <form method="POST" class="grid space-y-2 text-lg" id="formLibro">
     <label for="nombre">Nombre del cuento</label>
-    <input type="text" name="nombre">
+    <input type="text" name="nombre" id="name">
     <label for="autor">Autora o autor</label>
     <input type="text" name="autor">
     <label for="editorial">Editorial</label>
@@ -16,8 +16,8 @@ const { estado } = Astro.props;
     <input type="text" name="anyo">
     <label for="categoria">Categoría</label>
     <input type="text" name="categoria">
-    <label for="quien">Añadido por</label>
-    <input type="text" name="quien">    
+    <label for="quienLoAnyade">Añadido por</label>
+    <input type="text" name="quienLoAnyade">    
     <div class=`${estado}`>
         <span class="grid space-y-2 text-lg">
             <label for="quienLoTiene">Lo tiene</label>
@@ -48,6 +48,9 @@ const { estado } = Astro.props;
 </form>
 
 <style>
+    input{
+        color:black;       
+    }
     .submit{
         background-image:linear-gradient(to right, rgb(0, 122, 31) , rgb(2, 128, 40));
         border-radius: 10px;
