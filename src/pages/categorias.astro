@@ -1,17 +1,50 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
+import { db, Cuento, count } from 'astro:db';
+
+const cuentos = await db.select().from(Cuento);
+const categorias : string[] = []
+cuentos.map((cuento) => {categorias.push(cuento.categoria)})
+let categoria = Array.from(new Set(categorias))
+
+//TODO
+/**
+ * Cuando se pulsa a una categoria, mostrar los cuentos que están en ella
+ */
+
 ---
 
 <Layout title="El museo del cuento - Categorías">
     <main>
         <Toolbar />	
+
+		<ul>
+			{categoria.map((cat) => 
+				<table class="w-full m-5 table-auto justify-around border-colapse border-2">
+    				<thead class="border-colapse border-2">
+						<tr>
+							<th><button id="categoria">{cat}</button></th>
+						</tr>
+					</thead>
+    				<tbody>
+						<tr class="hidden">
+							<td><button id="cuento">{cat}</button></td>
+						</tr>
+					</tbody>
+				</table>)}
+		</ul>
     </main>
-   
-
-
-
 </Layout>
+
+<script>
+	let enlaceCategoria = document.getElementById("categoria")
+
+	enlaceCategoria?.addEventListener("click", function(){
+		
+	})
+
+</script>
 <style>
     main {
 		margin: auto;		
