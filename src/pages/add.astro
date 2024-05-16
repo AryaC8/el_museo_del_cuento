@@ -3,20 +3,30 @@ import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
 import Form from '../components/form.astro';
 
-import { db, Cuento, isDbError } from 'astro:db';
+import { db, Cuento, isDbError, CuentoDeseado, like } from 'astro:db';
 
 //TODO
-/*Generar id aleatorio
-	Borrar cuento deseado si ya está añadido a LA BIBLIOTECA
+/*Generar id aleatorio	
 	Mostrar los cuentos dentro de cada categoria
 	Hacer funcionar el input de búsqueda
 	Rellenar las tablas de cada sección
 	investigar las imágenes
+	RESOLVER PRESTADO SIEMPRE EN FALSE
 
 */
+const cuentos = await db.select().from(Cuento);
+let idMax: number[] = []
+let max = 0
 
-const id: string = '2';
-let prestado: boolean = false
+cuentos.map((cuento) =>{	
+	idMax.push(cuento.id)
+})
+idMax.map((maximo) =>{	
+	if(max < maximo)
+	max = maximo
+})
+const id: number = max+1;
+let prestado: boolean
 
 if (Astro.request.method === 'POST') { 
   const formData: FormData = await Astro.request.formData();  
@@ -29,24 +39,30 @@ if (Astro.request.method === 'POST') {
   const quienLoTiene = formData.get('quienLoTiene');
   const estaPrestado = formData.get('prestado');
   const prestadoA = formData.get('personaPrestado');
-
-  if(estaPrestado == "true")  
-  	 prestado = true
  
-	try{
-	if (typeof id === 'string' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && typeof quienLoTiene === 'string' && typeof prestado === 'boolean' && typeof prestadoA === 'string') {
-		await db.insert(Cuento).values({ id, nombre, autor, editorial, anyo, categoria, anyadidoPor, quienLoTiene, prestado, prestadoA });
-	}
+	try{		
+		if (typeof id === 'number' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && typeof quienLoTiene === 'string' && typeof estaPrestado === 'string' && typeof prestadoA === 'string') {
+			prestado = estaPrestado == "true" ? true : false
+			await db.insert(Cuento).values({ id, nombre, autor, editorial, anyo, categoria, anyadidoPor, quienLoTiene, prestado, prestadoA });
+		}
 	}catch(e){
-			if (isDbError(e)) {
-				return new Response(e);
-			}
+		if (isDbError(e)) {
+			return new Response(e);
+		}
+	}
+
+	const cuentoDeseado = await db.select().from(CuentoDeseado);
+
+	cuentoDeseado.map((cuento)=>{
+		if(nombre === cuento.nombre){
+			borrar(nombre)
+		}
+	})
+
+	async function borrar(name: string) {
+		await db.delete(CuentoDeseado).where(like (CuentoDeseado.nombre, name))
 	}
 }
-
-const cuento= await db.select().from(Cuento);
-
-console.log(cuento)
 ---
 
 <Layout title="El museo del cuento - Añadir">
