@@ -1,33 +1,44 @@
 ---
+import { db, CuentoDeseado, Cuento } from 'astro:db';
+
 interface Props {
 	tipoCuento: string;  
 }
-
 const { tipoCuento } = Astro.props;
+let cuentos
+
+if(tipoCuento == "CuentoDeseado"){
+     cuentos = await db.select().from(CuentoDeseado);
+}else if(tipoCuento == "Cuento"){
+     cuentos = await db.select().from(Cuento);
+}
+
+
+//TODO
+/*
+    Al pinchar en un título. mostrar toda la información de ese libro
+*/
+
+console.log(cuentos)
 ---
 
-<table class="w-full m-5 table-auto justify-around border-colapse border-2">
+<table class="w-full m-5 table-auto border-separate border-spacing-2 border border-slate-500">
     <thead class="border-colapse border-2">
         <tr>
-            <th>Portada</th>
-            <th>Nombre</th>
-            <th>Lo tiene</th>
-            <th>Prestado a: </th>
+            <th class="border border-slate-600">Portada</th>
+            <th class="border border-slate-600">Nombre</th>
+            <th class="border border-slate-600">Autora / Autor</th>
+            <th class="border border-slate-600">Editorial</th>            
         </tr>
     </thead>
-    <tbody >
-        <tr class="border-colapse border-2">
-            <td>Hoslfsdfks`df` </td>
-            <td>Hoslfsdfks`df` </td>
-            <td>Hoslfsdfks`df` </td>
-            <td>Hoslfsdfks`df` </td>
-        </tr>
-        <tr>
-            <td>Hoslfsdfks`df` </td>
-            <td>Hoslfsdfks`df` </td>
-            <td>Hoslfsdfks`df` </td>
-            <td>Hoslfsdfks`df` </td>
-        </tr>        
-        <!-- listado de cuentos -->
+    <tbody class="border-colapse border-2">       
+        {cuentos?.map((cuento)=>{
+            return <tr>
+                        <td class="border border-slate-700">{cuento.anyo}</td>
+                        <td class="border border-slate-700">{cuento.nombre}</td> 
+                        <td class="border border-slate-700">{cuento.autor}</td> 
+                        <td class="border border-slate-700">{cuento.editorial}</td>                      
+                    </tr>                                            
+        })}    
     </tbody>
 </table>
