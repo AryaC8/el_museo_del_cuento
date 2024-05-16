@@ -7,9 +7,21 @@ import TablaCuentos from '../components/tablaCuentos.astro';
 import { db, CuentoDeseado } from 'astro:db';
 
 //TODO
-/*Generar id aleatorio*/
+/*Generar id aleatorio
+Hacer un select para saber los que hay. Ver el id más elevado y sumarle uno*/
 
-const id: string = '2';
+const cuentoDeseado = await db.select().from(CuentoDeseado);
+let idMax: number[] = []
+let max = 0
+
+cuentoDeseado.map((cuento) =>{	
+	idMax.push(cuento.id)
+})
+idMax.map((maximo) =>{	
+	if(max < maximo)
+	max = maximo
+})
+const id: number = max+1;
 
 if (Astro.request.method === 'POST') { 
   const formData: FormData = await Astro.request.formData();  
@@ -21,15 +33,11 @@ if (Astro.request.method === 'POST') {
   const anyadidoPor = formData.get('quienLoAnyade');
  
 
-  if (typeof id === 'string' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string') {
+  if (typeof id === 'number' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string') {
     // Insertar datos de formulario en un Comment
     await db.insert(CuentoDeseado).values({id, nombre, autor, editorial, anyo, categoria, anyadidoPor});
   }
 }
-
-const cuentoDeseado = await db.select().from(CuentoDeseado);
-
-console.log(cuentoDeseado)
 ---
 
 <Layout title="El museo del cuento - Deseados">
@@ -40,10 +48,10 @@ console.log(cuentoDeseado)
 				<h2 class="text-5xl"><span class="text-gradient">Lista de cuentos deseados</span></h2>
 			</div>
 			<div>
-				<!-- <TablaCuentos /> -->
+				 <TablaCuentos tipoCuento='CuentoDeseado'/> 
 			</div>
-			<span class="flex justify-end">
-				<button class="ml-1 bg-green-700 rounded-md px-2 py-1" id="buttonAddDesiredTale">          
+			<span class="flex justify-center">
+				<button class="ml-1 mt-8 bg-green-700 rounded-md px-2 py-1" id="buttonAddDesiredTale">          
 					Añadir deseo
 				</button>
 			</span>
