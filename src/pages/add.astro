@@ -6,13 +6,9 @@ import Form from '../components/form.astro';
 import { db, Cuento, isDbError, CuentoDeseado, like } from 'astro:db';
 
 //TODO
-/*Generar id aleatorio	
-	Mostrar los cuentos dentro de cada categoria
-	Hacer funcionar el input de búsqueda
-	Rellenar las tablas de cada sección
+/*
+	Mostrar los cuentos dentro de cada categoria		
 	investigar las imágenes
-	RESOLVER PRESTADO SIEMPRE EN FALSE
-
 */
 const cuentos = await db.select().from(Cuento);
 let idMax: number[] = []
@@ -42,7 +38,7 @@ if (Astro.request.method === 'POST') {
  
 	try{		
 		if (typeof id === 'number' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && typeof quienLoTiene === 'string' && typeof estaPrestado === 'string' && typeof prestadoA === 'string') {
-			prestado = estaPrestado == "true" ? true : false
+			prestado = estaPrestado == "true" ? true : false					
 			await db.insert(Cuento).values({ id, nombre, autor, editorial, anyo, categoria, anyadidoPor, quienLoTiene, prestado, prestadoA });
 		}
 	}catch(e){

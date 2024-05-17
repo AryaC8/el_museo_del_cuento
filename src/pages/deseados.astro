@@ -6,10 +6,6 @@ import TablaCuentos from '../components/tablaCuentos.astro';
 
 import { db, CuentoDeseado } from 'astro:db';
 
-//TODO
-/*Generar id aleatorio
-Hacer un select para saber los que hay. Ver el id más elevado y sumarle uno*/
-
 const cuentoDeseado = await db.select().from(CuentoDeseado);
 let idMax: number[] = []
 let max = 0
@@ -34,7 +30,6 @@ if (Astro.request.method === 'POST') {
  
 
   if (typeof id === 'number' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string') {
-    // Insertar datos de formulario en un Comment
     await db.insert(CuentoDeseado).values({id, nombre, autor, editorial, anyo, categoria, anyadidoPor});
   }
 }
