@@ -1,0 +1,79 @@
+---
+import { db, Cuento, isDbError, like } from 'astro:db';
+import Search from '../../public/icons/search.astro';
+
+let cuento 
+
+if (Astro.request.method === 'POST') { 
+  const formData: FormData = await Astro.request.formData();  
+  const nombre = formData.get('search');  
+ 
+	try{		
+		if (typeof nombre === 'string' ) {	            							
+			cuento = await db.select().from(Cuento).where(like (Cuento.nombre, nombre)); 
+            console.log(cuento)           
+		}
+	}catch(e){
+		if (isDbError(e)) {
+			return new Response(e);
+		}
+	}
+}
+
+---
+<section class="flex justify-end align-text-bottom" id="search">    
+        <form method="POST" class="flex">
+            <input class="w-48 rounded text-black text-base p-2" type="search" id="search-tale" name="search" placeholder="Buscar cuento">
+            <button class="rounded border-solid border-2 border-white" type="submit" id=buttonSearch"><Search /></button>
+        </form>  
+</section>
+
+<section class="" id="secPopover">     
+    <table class="w-full m-5 table-auto text-base">
+        <thead class="border-colapse border-2 ">
+            <tr>
+                <th class="border border-slate-700">Portada</th>
+                <th class="border border-slate-700">Nombre</th>
+                <th class="border border-slate-700">Autora / Autor</th>
+                <th class="border border-slate-700">Editorial</th>            
+                <th class="border border-slate-700">Año</th>            
+                <th class="border border-slate-700">Añadido por</th>            
+                <th class="border border-slate-700">Lo tiene</th>            
+                <th class="border border-slate-700">A quién está prestado</th>                       
+            </tr>
+        </thead>
+        <tbody class="border-colapse border-2">       
+            {cuento?.map((dato)=>{
+                return <tr>
+                            <td class="border border-slate-700">{dato.anyo}</td>
+                            <td class="border border-slate-700">{dato.nombre}</td> 
+                            <td class="border border-slate-700">{dato.autor}</td> 
+                            <td class="border border-slate-700">{dato.editorial}</td>                      
+                            <td class="border border-slate-700">{dato.anyo}</td>                      
+                            <td class="border border-slate-700">{dato.categoria}</td>                      
+                            <td class="border border-slate-700">{dato.anyadidoPor}</td>                                             
+                            <td class="border border-slate-700">{dato.prestadoA}</td>                      
+                        </tr>                                            
+            })}    
+        </tbody>
+    </table>      
+</section>
+
+<script>
+    let secPopover = document.getElementById("secPopover")
+    let buttonSearch = document.getElementById("buttonSearch")
+
+    buttonSearch?.addEventListener("click", function(){
+        secPopover?.classList.remove("hidden")
+        secPopover?.classList.add("visible")
+        
+    })
+
+</script>
+
+<style>
+    .popover{
+        display: flex;
+        color: white;
+    }
+</style>
