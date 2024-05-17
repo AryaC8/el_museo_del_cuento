@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
 import Library from '../../public/icons/library.astro';
 import TablaCuentos from '../components/tablaCuentos.astro';
+import Busqueda from '../components/busqueda.astro';
 ---
 
 <Layout title="El museo del cuento">
@@ -12,7 +13,7 @@ import TablaCuentos from '../components/tablaCuentos.astro';
 			<Library />			
 			<h1>El <span class="text-gradient">museo</span> del <span class="text-gradient">cuento</span></h1>		
 		</div>
-		
+			<Busqueda/>		
 		<div class="flex justify-center mt-10">
 			<h2 class="text-5xl"><span class="text-gradient">Biblioteca</span></h2>
 		</div>
