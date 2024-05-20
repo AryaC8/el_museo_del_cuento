@@ -7,9 +7,9 @@ interface Props {
 const { tipoCuento } = Astro.props;
 let cuentos
 
-if(tipoCuento == "CuentoDeseado"){
+if(tipoCuento === "CuentoDeseado"){
      cuentos = await db.select().from(CuentoDeseado);
-}else if(tipoCuento == "Cuento"){
+}else if(tipoCuento === "Cuento"){
      cuentos = await db.select().from(Cuento);
 }
 
