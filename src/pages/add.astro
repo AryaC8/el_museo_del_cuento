@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
 import Form from '../components/form.astro';
+import { createHash } from "node:crypto"
 
 import { db, Cuento, isDbError, CuentoDeseado, like } from 'astro:db';
 
@@ -10,18 +11,12 @@ import { db, Cuento, isDbError, CuentoDeseado, like } from 'astro:db';
 	Mostrar los cuentos dentro de cada categoria		
 	investigar las imágenes
 */
-const cuentos = await db.select().from(Cuento);
-let idMax: number[] = []
-let max = 0
 
-cuentos.map((cuento) =>{	
-	idMax.push(cuento.id)
-})
-idMax.map((maximo) =>{	
-	if(max < maximo)
-	max = maximo
-})
-const id: number = max+1;
+const generateId = (str: string) => {
+	return createHash("sha256").update(str).digest("hex")
+}
+
+
 let prestado: boolean
 
 if (Astro.request.method === 'POST') { 
@@ -35,10 +30,12 @@ if (Astro.request.method === 'POST') {
   const quienLoTiene = formData.get('quienLoTiene');
   const estaPrestado = formData.get('prestado');
   const prestadoA = formData.get('personaPrestado');
+  
  
 	try{		
-		if (typeof id === 'number' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && typeof quienLoTiene === 'string' && typeof estaPrestado === 'string' && typeof prestadoA === 'string') {
-			prestado = estaPrestado == "true" ? true : false					
+		if (typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && typeof quienLoTiene === 'string' && typeof estaPrestado === 'string' && typeof prestadoA === 'string') {
+			prestado = estaPrestado == "true" ? true : false	
+			const id = generateId(nombre+editorial)				
 			await db.insert(Cuento).values({ id, nombre, autor, editorial, anyo, categoria, anyadidoPor, quienLoTiene, prestado, prestadoA });
 		}
 	}catch(e){

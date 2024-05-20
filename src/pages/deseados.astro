@@ -3,21 +3,15 @@ import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
 import Form from '../components/form.astro';
 import TablaCuentos from '../components/tablaCuentos.astro';
+import { createHash } from "node:crypto"
+import Busqueda from '../components/busqueda.astro';
 
 import { db, CuentoDeseado } from 'astro:db';
 
-const cuentoDeseado = await db.select().from(CuentoDeseado);
-let idMax: number[] = []
-let max = 0
 
-cuentoDeseado.map((cuento) =>{	
-	idMax.push(cuento.id)
-})
-idMax.map((maximo) =>{	
-	if(max < maximo)
-	max = maximo
-})
-const id: number = max+1;
+const generateId = (str: string) => {
+	return createHash("sha256").update(str).digest("hex")
+}
 
 if (Astro.request.method === 'POST') { 
   const formData: FormData = await Astro.request.formData();  
@@ -27,10 +21,11 @@ if (Astro.request.method === 'POST') {
   const anyo = formData.get('anyo');
   const categoria = formData.get('categoria');
   const anyadidoPor = formData.get('quienLoAnyade');
- 
+  	
 
-  if (typeof id === 'number' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string') {
-    await db.insert(CuentoDeseado).values({id, nombre, autor, editorial, anyo, categoria, anyadidoPor});
+  if (typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string') {
+    const id = generateId(nombre+editorial)
+	await db.insert(CuentoDeseado).values({id, nombre, autor, editorial, anyo, categoria, anyadidoPor});
   }
 }
 ---
@@ -39,10 +34,11 @@ if (Astro.request.method === 'POST') {
     <main>
         <Toolbar />	
 		<section class="" id="listaCuentosDeseados">
-			<div class="flex justify-center mt-10">
+			<div class="flex justify-center mt-10 mb-10">
 				<h2 class="text-5xl"><span class="text-gradient">Lista de cuentos deseados</span></h2>
 			</div>
-			<div>
+			<Busqueda/>	
+			<div class="mt-10">
 				 <TablaCuentos tipoCuento='CuentoDeseado'/> 
 			</div>
 			<span class="flex justify-center">

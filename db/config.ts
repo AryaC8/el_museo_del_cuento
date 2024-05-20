@@ -9,7 +9,7 @@ import { defineDb, defineTable, column } from 'astro:db';
 
 const Cuento = defineTable({
   columns:{
-    id: column.number({primaryKey: true}),
+    id: column.text({primaryKey: true}),
     nombre: column.text(),
     autor: column.text(),
     editorial: column.text(),
@@ -24,7 +24,7 @@ const Cuento = defineTable({
 
 const CuentoDeseado = defineTable({
   columns:{
-    id: column.number({primaryKey: true}),
+    id: column.text({primaryKey: true}),
     nombre: column.text(),
     autor: column.text(),
     editorial: column.text(),
