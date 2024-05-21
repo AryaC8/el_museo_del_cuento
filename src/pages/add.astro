@@ -20,7 +20,8 @@ const generateId = (str: string) => {
 let prestado: boolean
 
 if (Astro.request.method === 'POST') { 
-  const formData: FormData = await Astro.request.formData();  
+  const formData: FormData = await Astro.request.formData(); 
+  const portada = formData.get('portada'); 
   const nombre = formData.get('nombre');
   const autor = formData.get('autor');
   const editorial = formData.get('editorial');
@@ -33,10 +34,10 @@ if (Astro.request.method === 'POST') {
   
  
 	try{		
-		if (typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && typeof quienLoTiene === 'string' && typeof estaPrestado === 'string' && typeof prestadoA === 'string') {
+		if (typeof portada === 'string' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && typeof quienLoTiene === 'string' && typeof estaPrestado === 'string' && typeof prestadoA === 'string') {
 			prestado = estaPrestado == "true" ? true : false	
 			const id = generateId(nombre+editorial)				
-			await db.insert(Cuento).values({ id, nombre, autor, editorial, anyo, categoria, anyadidoPor, quienLoTiene, prestado, prestadoA });
+			await db.insert(Cuento).values({ id, portada, nombre, autor, editorial, anyo, categoria, anyadidoPor, quienLoTiene, prestado, prestadoA });
 		}
 	}catch(e){
 		if (isDbError(e)) {
@@ -78,12 +79,12 @@ if (Astro.request.method === 'POST') {
 
 	function cambiarVisibilidadSeccionDependiendoDePrestado() {
 		prestado[0].addEventListener("change", function(){
-		aQuienEstaPrestado?.classList.remove("hidden")
-	})
+			aQuienEstaPrestado?.classList.remove("hidden")
+		})
 
-	prestado[1].addEventListener("change", function(){
-		aQuienEstaPrestado?.classList.add("hidden")
-	})
+		prestado[1].addEventListener("change", function(){
+			aQuienEstaPrestado?.classList.add("hidden")
+		})
 	}
 	
 </script>

@@ -4,7 +4,7 @@ import Toolbar from '../components/Toolbar.astro';
 import Form from '../components/form.astro';
 import TablaCuentos from '../components/tablaCuentos.astro';
 import { createHash } from "node:crypto"
-//import Busqueda from '../components/busqueda.astro';
+import Busqueda from '../components/busqueda.astro';
 
 import { db, CuentoDeseado } from 'astro:db';
 
@@ -15,6 +15,7 @@ const generateId = (str: string) => {
 
 if (Astro.request.method === 'POST') { 
   const formData: FormData = await Astro.request.formData();  
+  const portada = formData.get('portada'); 
   const nombre = formData.get('nombre');
   const autor = formData.get('autor');
   const editorial = formData.get('editorial');
@@ -23,9 +24,9 @@ if (Astro.request.method === 'POST') {
   const anyadidoPor = formData.get('quienLoAnyade');
   	
 
-  if (typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string') {
+  if (typeof portada === 'string' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string') {
     const id = generateId(nombre+editorial)
-	await db.insert(CuentoDeseado).values({id, nombre, autor, editorial, anyo, categoria, anyadidoPor});
+	await db.insert(CuentoDeseado).values({id, portada, nombre, autor, editorial, anyo, categoria, anyadidoPor});
   }
 }
 ---
@@ -37,7 +38,7 @@ if (Astro.request.method === 'POST') {
 			<div class="flex justify-center mt-10 mb-10">
 				<h2 class="text-5xl"><span class="text-gradient">Lista de cuentos deseados</span></h2>
 			</div>
-			<!-- <Busqueda />	 -->
+			 <Busqueda />	 
 			<div class="mt-10">
 				 <TablaCuentos tipoCuento='CuentoDeseado'/> 
 			</div>
@@ -65,7 +66,8 @@ if (Astro.request.method === 'POST') {
 	buttonAddDesiredTale?.addEventListener("click", function(){
 		formAddDesiredTale?.classList.remove("hidden")
 		listaCuentosDeseados?.classList.add("hidden")
-	})	
+	})
+	
 </script>
 
 <style>
