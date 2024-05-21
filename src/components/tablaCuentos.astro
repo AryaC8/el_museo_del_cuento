@@ -12,12 +12,6 @@ if(tipoCuento === "CuentoDeseado"){
 }else if(tipoCuento === "Cuento"){
      cuentos = await db.select().from(Cuento);
 }
-
-
-//TODO
-/*
-    Al pinchar en un título. mostrar toda la información de ese libro
-*/
 ---
 
 <table class="w-full m-5 table-auto border-separate border-spacing-2 border border-slate-500">
@@ -31,12 +25,12 @@ if(tipoCuento === "CuentoDeseado"){
     </thead>
     <tbody class="border-colapse border-2">       
         {cuentos?.map((cuento)=>{
-            return <tr>
-                        <td class="border border-slate-700">{cuento.anyo}</td>
-                        <td class="border border-slate-700">{cuento.nombre}</td> 
-                        <td class="border border-slate-700">{cuento.autor}</td> 
-                        <td class="border border-slate-700">{cuento.editorial}</td>                      
-                    </tr>                                            
+            return <tr>                
+                        <td class="border border-slate-700"><button>{cuento.portada}</button></td>
+                        <td class="border border-slate-700"><button>{cuento.nombre}</button></td> 
+                        <td class="border border-slate-700"><button>{cuento.autor}</button></td> 
+                        <td class="border border-slate-700"><button>{cuento.editorial}</button></td>
+                    </tr>                           
         })}    
     </tbody>
 </table>
