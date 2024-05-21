@@ -6,6 +6,8 @@ interface Props {
 const { estado } = Astro.props;
 ---
 <form method="POST" class="grid space-y-2 text-lg" id="formLibro">
+    <label for="portada">Imágen portada (copia enlace)</label>
+    <input type="text" name="portada">
     <label for="nombre">Nombre del cuento</label>
     <input type="text" name="nombre">
     <label for="autor">Autora o autor</label>
