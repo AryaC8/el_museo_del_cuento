@@ -1,0 +1,62 @@
+---
+import { db, CuentoDeseado, Cuento, eq } from 'astro:db';
+
+interface Props {
+	cuento: string;  
+}
+const { cuento } = Astro.props;
+
+const eleccion = await db.select().from(Cuento).where(eq (Cuento.nombre, cuento));
+---
+ <section id="modal" class="hidden">           
+    <div class="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center ">
+        <div class="bg-white p-5 rounded flex flex-col justify-center items-centergap-5 w-9/12">
+            <div class="text-black">
+                <table class="w-full table-auto borde border-spacing-2 border border-slate-500 m-2">
+                    <thead>                            
+                        <tr>
+                        <th class="border border-slate-600">Portada</th>
+                        <th class="border border-slate-600">Nombre</th>
+                        <th class="border border-slate-600">Autora / Autor</th>
+                        <th class="border border-slate-600">Editorial</th> 
+                        <th class="border border-slate-600">Año</th> 
+                        <th class="border border-slate-600">Lo tiene</th> 
+                        <th class="border border-slate-600">Prestado a</th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {eleccion?.map((dato)=>{
+                            return <tr>
+                                    <td class="border border-slate-600">{dato.portada}</td>
+                                    <td class="border border-slate-600">{dato.nombre}</td>
+                                    <td class="border border-slate-600">{dato.autor}</td>
+                                    <td class="border border-slate-600">{dato.editorial}</td> 
+                                    <td class="border border-slate-600">{dato.anyo}</td> 
+                                    <td class="border border-slate-600">{dato.quienLoTiene}</td> 
+                                    <td class="border border-slate-600">{dato.prestadoA}</td> 
+                                </tr>
+                          })}  
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-center items-center ">
+                <button class="bg-red-600 rounded-md text-white font-bold m-5 p-1" id="buttonCerrar">Cerrar</button>
+            </div>                            
+        </div>
+    </div> 
+</section>               
+               
+<script>	
+	const buttonCerrar = document.getElementById("buttonCerrar")
+	const buttonAbrir = document.getElementById("buttonAbrir")
+    const modal = document.getElementById("modal")
+
+	buttonAbrir?.addEventListener("click", function(){
+        modal?.classList.remove("hidden")
+	})
+
+	
+    buttonCerrar?.addEventListener("click", function(){
+        modal?.classList.add("hidden")
+	})	
+</script>           
