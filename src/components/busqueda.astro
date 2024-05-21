@@ -24,11 +24,11 @@ if (Astro.request.method === 'POST') {
 <section class="flex justify-end align-text-bottom" id="search">    
         <form method="POST" class="flex">
             <input class="w-48 rounded text-black text-base p-2" type="search" id="search-tale" name="search" placeholder="Buscar cuento">
-            <button class="rounded border-solid border-2 border-white" type="submit" id=buttonSearch"><Search /></button>
+            <button class="rounded border-solid border-2 border-white" type="submit" id="buttonSearch"><Search /></button>
         </form>  
 </section>
 
-<section class="" id="secPopover">     
+<section class="hidden" id="secPopover">     
     <table class="w-full m-5 table-auto text-base">
         <thead class="border-colapse border-2 ">
             <tr>
@@ -59,17 +59,7 @@ if (Astro.request.method === 'POST') {
     </table>      
 </section>
 
-<script>
-    let secPopover = document.getElementById("secPopover")
-    let buttonSearch = document.getElementById("buttonSearch")
 
-    buttonSearch?.addEventListener("click", function(){
-        secPopover?.classList.remove("hidden")
-        secPopover?.classList.add("visible")
-        
-    })
-
-</script>
 
 <style>
     .popover{
