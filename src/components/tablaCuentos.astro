@@ -1,5 +1,6 @@
 ---
 import { db, CuentoDeseado, Cuento } from 'astro:db';
+import Book from '../../public/icons/book.astro'
 
 interface Props {
 	tipoCuento: string;  
@@ -21,15 +22,21 @@ if(tipoCuento === "CuentoDeseado"){
             <th class="border border-slate-600">Nombre</th>
             <th class="border border-slate-600">Autora / Autor</th>
             <th class="border border-slate-600">Editorial</th>            
+            <th class="border border-slate-600">Ver</th>            
         </tr>
     </thead>
     <tbody class="border-colapse border-2">       
         {cuentos?.map((cuento)=>{
             return <tr>                
-                        <td class="border border-slate-700"><button>{cuento.portada}</button></td>
-                        <td class="border border-slate-700"><button>{cuento.nombre}</button></td> 
-                        <td class="border border-slate-700"><button>{cuento.autor}</button></td> 
-                        <td class="border border-slate-700"><button>{cuento.editorial}</button></td>
+                        <td class="border border-slate-700 flex justify-center">
+                            <figure class="w-28 m-1">
+                                <img src= {cuento.portada} alt={cuento.nombre}/>
+                            </figure>                           
+                        </td>
+                        <td class="border border-slate-700"><div class="flex justify-center">{cuento.nombre}</div></td> 
+                        <td class="border border-slate-700"><div class="flex justify-center">{cuento.autor}</div></td> 
+                        <td class="border border-slate-700"><div class="flex justify-center">{cuento.editorial}</div></td>
+                        <td class="border border-slate-700"><button id= {cuento.nombre} class="cuento"><Book/></button></td>
                     </tr>                           
         })}    
     </tbody>
