@@ -5,6 +5,8 @@ import Library from '../../public/icons/library.astro';
 import TablaCuentos from '../components/tablaCuentos.astro';
 import Busqueda from '../components/busqueda.astro';
 import Modal from '../components/modal.astro'
+
+let nombreCuento: string = ""
 ---
 
 <Layout title="El museo del cuento">
@@ -20,24 +22,27 @@ import Modal from '../components/modal.astro'
 		</div>
 		<div>
 			<TablaCuentos tipoCuento='Cuento'/>
-		</div>
-		<Modal cuento="Los tres cerditos"/>
+		</div>		
+		
+		<Modal cuento={nombreCuento}/>			
 		
 	</main>
 </Layout>
 
-<script>	
-	const cuentoSelecionado = document.querySelectorAll("button")
-	const modal = document.getElementById("modal")
+<script>      
+	const cuentos = document.querySelectorAll(".cuento")
+	const modal = document.getElementById("modal")	
 
+	cuentos.forEach((ele)=>{
+		ele.addEventListener("click", ()=>{			
+			modal?.classList.remove("hidden")				
+		})
+	})
 	
-	//TODO
-	/*
+		//TODO
+		/*
 		Al pinchar en un título. mostrar toda la información de ese libro en el modal
-	*/
-
-	 
-	
+		*/
 </script>
 
 <style>
