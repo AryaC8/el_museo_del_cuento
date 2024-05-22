@@ -15,7 +15,7 @@ const Cuento = defineTable({
     autor: column.text(),
     editorial: column.text(),
     anyo: column.text(),
-    categoria: column.text(),
+    categoria: column.text({ references: () => Categoria.columns.id }),
     anyadidoPor: column.text(), 
     quienLoTiene: column.text(),   
     prestado: column.boolean({ default: false }),
@@ -31,17 +31,17 @@ const CuentoDeseado = defineTable({
     autor: column.text(),
     editorial: column.text(),
     anyo: column.text(),
-    categoria: column.text(),
+    categoria: column.text({ references: () => Categoria.columns.id }),
     anyadidoPor: column.text(),     
   }
 })
 
-// const Categoria = defineTable({
-//   columns:{
-//     id: column.text({primaryKey: true}),
-//     categoria: column.text(),
-//   }
-// })
+const Categoria = defineTable({
+  columns:{
+    id: column.text({primaryKey: true}),
+    nombre: column.text(),
+  }
+})
 
 // https://astro.build/db/config
 export default defineDb({
@@ -49,6 +49,6 @@ export default defineDb({
     Cuento,
     CuentoDeseado, 
     // User, 
-    // Categoria
+    Categoria
   }
 });

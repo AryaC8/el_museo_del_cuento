@@ -1,9 +1,11 @@
 ---
+import { db, Categoria } from 'astro:db';
+
 interface Props {
 	estado: string;  
 }
-
 const { estado } = Astro.props;
+const categoria = await db.select().from(Categoria);
 ---
 <form method="POST" class="grid space-y-2 text-lg" id="formLibro">
     <label for="portada">Imágen portada (copia enlace)</label>
@@ -17,7 +19,16 @@ const { estado } = Astro.props;
     <label for="anyo">Año</label>
     <input type="text" name="anyo">
     <label for="categoria">Categoría</label>
-    <input type="text" name="categoria">
+    <select name="categoria" id="categoria">
+        <option value="" disabled selected>Selecciona una categoría</option>
+        {
+            categoria.map((cat)=>{
+                return(                    
+                    <option value="1">{cat.nombre}</option>                 
+                )             
+            })
+        }
+    </select>        
     <label for="quienLoAnyade">Añadido por</label>
     <input type="text" name="quienLoAnyade">    
     <div class=`${estado}`>
@@ -50,7 +61,7 @@ const { estado } = Astro.props;
 </form>
 
 <style>
-    input{
+    input, select {
         color:black;       
     }
     .submit{

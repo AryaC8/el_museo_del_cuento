@@ -16,8 +16,8 @@ const generateId = (str: string) => {
 	return createHash("sha256").update(str).digest("hex")
 }
 
-
 let prestado: boolean
+
 
 if (Astro.request.method === 'POST') { 
   const formData: FormData = await Astro.request.formData(); 
@@ -30,13 +30,12 @@ if (Astro.request.method === 'POST') {
   const anyadidoPor = formData.get('quienLoAnyade');
   const quienLoTiene = formData.get('quienLoTiene');
   const estaPrestado = formData.get('prestado');
-  const prestadoA = formData.get('personaPrestado');
-  
- 
+  const prestadoA = formData.get('personaPrestado');  
+
 	try{		
-		if (typeof portada === 'string' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && typeof quienLoTiene === 'string' && typeof estaPrestado === 'string' && typeof prestadoA === 'string') {
+		if (typeof portada === 'string' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && typeof quienLoTiene === 'string' && typeof estaPrestado === 'string' && typeof prestadoA === 'string' && categoria !== '') {
 			prestado = estaPrestado == "true" ? true : false	
-			const id = generateId(nombre+editorial)				
+			const id = generateId(nombre+editorial)						
 			await db.insert(Cuento).values({ id, portada, nombre, autor, editorial, anyo, categoria, anyadidoPor, quienLoTiene, prestado, prestadoA });
 		}
 	}catch(e){

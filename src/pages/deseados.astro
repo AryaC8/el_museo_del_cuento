@@ -24,7 +24,7 @@ if (Astro.request.method === 'POST') {
   const anyadidoPor = formData.get('quienLoAnyade');
   	
 
-  if (typeof portada === 'string' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string') {
+  if (typeof portada === 'string' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && categoria !== '') {
     const id = generateId(nombre+editorial)
 	await db.insert(CuentoDeseado).values({id, portada, nombre, autor, editorial, anyo, categoria, anyadidoPor});
   }
@@ -44,7 +44,7 @@ if (Astro.request.method === 'POST') {
 			</div>
 			<span class="flex justify-center">
 				<button class="ml-1 mt-8 bg-green-700 rounded-md px-2 py-1" id="buttonAddDesiredTale">          
-					Añadir deseo
+					Añadir cuento deseado
 				</button>
 			</span>
 		</section>
