@@ -24,7 +24,7 @@ const categoria = await db.select().from(Categoria);
         {
             categoria.map((cat)=>{
                 return(                    
-                    <option value="1">{cat.nombre}</option>                 
+                    <option value={cat.id}>{cat.nombre}</option>                 
                 )             
             })
         }
