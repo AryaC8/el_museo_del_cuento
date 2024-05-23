@@ -1,6 +1,11 @@
 ---
-import { db, Cuento, isDbError, like } from 'astro:db';
+import { db, Cuento, isDbError, like, CuentoDeseado } from 'astro:db';
 import Search from '../../public/icons/search.astro';
+
+interface Props {
+	tipoCuento: string;  
+}
+const { tipoCuento } = Astro.props;
 
 let cuento 
 
@@ -9,10 +14,11 @@ if (Astro.request.method === 'POST') {
   const nombre = formData.get('search');  
  
 	try{		
-		if (typeof nombre === 'string' ) {	            							
-			cuento = await db.select().from(Cuento).where(like (Cuento.nombre, nombre)); 
-            console.log(cuento)           
-		}
+		if (typeof nombre === 'string' && tipoCuento === "Cuento") {	            							
+			cuento = await db.select().from(Cuento).where(like (Cuento.nombre, nombre));                    
+		 }//else if (typeof nombre === 'string' && tipoCuento === "CuentoDeseado") {	            							
+		// 	cuento = await db.select().from(CuentoDeseado).where(like (CuentoDeseado.nombre, nombre));                    
+		// }
 	}catch(e){
 		if (isDbError(e)) {
 			return new Response(e);
