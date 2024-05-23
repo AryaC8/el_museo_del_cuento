@@ -1,50 +1,46 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
-import { db, Cuento, count } from 'astro:db';
+import { db, Cuento, Categoria, eq } from 'astro:db';
 
-const cuentos = await db.select().from(Cuento);
-const categorias : string[] = []
-cuentos.map((cuento) => {categorias.push(cuento.categoria)})
-let categoria = Array.from(new Set(categorias))
+
+ const categorias = await db.select().from(Categoria);
+
 
 //TODO
 /**
  * Cuando se pulsa a una categoria, mostrar los cuentos que están en ella
- */
+ */ 
 
+ 
+// const cuentosCat = await db.select().from(Cuento).where(eq (Cuento.categoria, categoria))
+//const cuentos = await db.select().from(Cuento).innerJoin(Categoria, eq(Cuento.categoria, Categoria.id));
 ---
 
 <Layout title="El museo del cuento - Categorías">
     <main>
-        <Toolbar />	
-
-		<ul>
-			{categoria.map((cat) => 
-				<table class="w-full m-5 table-auto justify-around border-colapse border-2">
-    				<thead class="border-colapse border-2">
-						<tr>
-							<th><button id="categoria">{cat}</button></th>
-						</tr>
-					</thead>
-    				<tbody>
-						<tr class="hidden">
-							<td><button id="cuento">{cat}</button></td>
-						</tr>
-					</tbody>
-				</table>)}
-		</ul>
+        <Toolbar />		
+		<section class="grid place-items-center h-[100vh]">
+			<div class="wrapper w-3/5">
+				{categorias.map((cat) => 				
+					<div class="tab mb-3 px-5 bg-white shadow-sm rounded-md relative te items-center border-solid hover:bg-green-300 text-black">
+						<input class="appearance-none peer" type="radio" name="cat" id={cat.id}/>
+						<label class="flex items-center text-lg font-semibold cursor-pointer
+						after:absolute after:text-2xl
+						after:text-gray-500 hover:after:text-gray-800 peer-checked:after:transform peer-checked:after:rotate-45" for={cat.id}>
+							<h3>{cat.nombre}</h3>
+						</label>
+						<div class="answer mt-5 h-0 overflow-hidden transition ease-in-out duration-500 peer-checked:h-full">						
+							<p class="text-sm">{cat}</p>
+						</div>
+					</div>	
+				)}
+			</div>			
+		</section>		
     </main>
 </Layout>
 
-<script>
-	let enlaceCategoria = document.getElementById("categoria")
 
-	enlaceCategoria?.addEventListener("click", function(){
-		
-	})
-
-</script>
 <style>
     main {
 		margin: auto;		
