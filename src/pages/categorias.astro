@@ -5,13 +5,6 @@ import { db, Cuento, Categoria, eq } from 'astro:db';
 
 
  const categorias = await db.select().from(Categoria);
-
-
-//TODO
-/**
- * Cuando se pulsa a una categoria, mostrar los cuentos que están en ella
- */ 
-
  
 // const cuentosCat = await db.select().from(Cuento).where(eq (Cuento.categoria, categoria))
 //const cuentos = await db.select().from(Cuento).innerJoin(Categoria, eq(Cuento.categoria, Categoria.id));
@@ -41,14 +34,3 @@ import { db, Cuento, Categoria, eq } from 'astro:db';
 </Layout>
 
 
-<style>
-    main {
-		margin: auto;		
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
-	}	
-</style>

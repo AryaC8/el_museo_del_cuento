@@ -6,12 +6,6 @@ import { createHash } from "node:crypto"
 
 import { db, Cuento, isDbError, CuentoDeseado, like } from 'astro:db';
 
-//TODO
-/*
-	Mostrar los cuentos dentro de cada categoria		
-	investigar las imágenes
-*/
-
 const generateId = (str: string) => {
 	return createHash("sha256").update(str).digest("hex")
 }
@@ -88,21 +82,3 @@ if (Astro.request.method === 'POST') {
 	
 </script>
 
-<style>
-    main {
-		margin: auto;		
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
-	}	
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}	
-</style>
