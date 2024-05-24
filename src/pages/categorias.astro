@@ -17,14 +17,14 @@ import { db, Cuento, Categoria, eq } from 'astro:db';
 			<div class="wrapper w-3/5">
 				{categorias.map((cat) => 				
 					<div class="tab mb-3 px-5 bg-white shadow-sm rounded-md relative te items-center border-solid hover:bg-green-300 text-black">
-						<input class="appearance-none peer" type="radio" name="cat" id={cat.id}/>
+						<input class="appearance-none peer" type="radio" name="cat" id={cat.id} data-categoria-id={cat.id}/>
 						<label class="flex items-center text-lg font-semibold cursor-pointer
 						after:absolute after:text-2xl
 						after:text-gray-500 hover:after:text-gray-800 peer-checked:after:transform peer-checked:after:rotate-45" for={cat.id}>
 							<h3>{cat.nombre}</h3>
 						</label>
-						<div class="answer mt-5 h-0 overflow-hidden transition ease-in-out duration-500 peer-checked:h-full">						
-							<p class="text-sm">{cat}</p>
+						<div class="answer mt-5 h-0 overflow-hidden transition ease-in-out duration-500 peer-checked:h-full" id={cat.id}>					
+							
 						</div>
 					</div>	
 				)}
@@ -34,3 +34,28 @@ import { db, Cuento, Categoria, eq } from 'astro:db';
 </Layout>
 
 
+<script>
+	const buttonCategoria = document.querySelectorAll("input")
+	const cuentosCategoria = document.getElementById("cuentosCategoria")
+
+	buttonCategoria.forEach((ele)=>{
+		const { categoriaId } = ele.dataset
+
+		ele.onclick = () =>{			
+			fetch (`/api/categorias/id=${categoriaId}`, {
+				method: "POST",
+				headers:{
+					"Content-Type": "application/json",
+				},		
+				body: JSON.stringify({categoriaId}),
+			}).then(res => res.json()).then(response =>{
+				const cuentos = response.cuento
+				for (let index = 0; index < cuentos.length; index++) {					
+					let p = document.createElement("p")
+					p.appendChild(document.createTextNode(cuentos[index].nombre))					
+					cuentosCategoria?.appendChild(p)
+				}				
+			})	
+		}
+	})		
+</script>
