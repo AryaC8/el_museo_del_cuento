@@ -36,7 +36,7 @@ if(tipoCuento === "CuentoDeseado"){
                         <td class="border border-slate-700"><div class="flex justify-center">{cuento.nombre}</div></td> 
                         <td class="border border-slate-700"><div class="flex justify-center">{cuento.autor}</div></td> 
                         <td class="border border-slate-700"><div class="flex justify-center">{cuento.editorial}</div></td>
-                        <td class="border border-slate-700"><button id= {cuento.nombre} class="cuento"><Book/></button></td>
+                        <td class="border border-slate-700"><button class="cuento" id={cuento.nombre} data-cuento-nombre={cuento.nombre}><Book/></button></td>
                     </tr>                           
         })}    
     </tbody>

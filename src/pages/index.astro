@@ -22,20 +22,29 @@ let nombreCuento: string = ""
 		</div>
 		<div>
 			<TablaCuentos tipoCuento='Cuento'/>
-		</div>		
-		
-		<Modal cuento={nombreCuento}/>			
+		</div>			
+		<div id="modalDiv">
+			<Modal cuento=" "/>
+		</div>
 		
 	</main>
 </Layout>
 
 <script>      
-	const cuentos = document.querySelectorAll(".cuento")
+	const cuentos = document.querySelectorAll("button")
 	const modal = document.getElementById("modal")	
+	const modalDiv = document.getElementById("modalDiv")
+	const mod = document.getElementsByTagName("Modal")
+
+	
 
 	cuentos.forEach((ele)=>{
-		ele.addEventListener("click", ()=>{			
-			modal?.classList.remove("hidden")				
+		const { cuentoNombre } = ele.dataset
+		ele.addEventListener("click", ()=>{	
+			const tpl = `<Modal cuento='${cuentoNombre}'/>`
+			if(modalDiv){						
+				modal?.classList.remove("hidden")	
+			}			
 		})
 	})		
 </script>
