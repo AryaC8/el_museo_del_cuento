@@ -23,9 +23,7 @@ import { db, Cuento, Categoria, eq } from 'astro:db';
 						after:text-gray-500 hover:after:text-gray-800 peer-checked:after:transform peer-checked:after:rotate-45" for={cat.id}>
 							<h3>{cat.nombre}</h3>
 						</label>
-						<div class="answer mt-5 h-0 overflow-hidden transition ease-in-out duration-500 peer-checked:h-full" id={cat.id}>					
-							
-						</div>
+						<div class="answer mt-5 h-0 overflow-hidden transition ease-in-out duration-500 peer-checked:h-full" id={`div${cat.id}`}></div>
 					</div>	
 				)}
 			</div>			
@@ -33,29 +31,40 @@ import { db, Cuento, Categoria, eq } from 'astro:db';
     </main>
 </Layout>
 
-
 <script>
-	const buttonCategoria = document.querySelectorAll("input")
-	const cuentosCategoria = document.getElementById("cuentosCategoria")
-
+	const buttonCategoria = document.querySelectorAll("input")	
+	let idDivSeleccionado : string	
 	buttonCategoria.forEach((ele)=>{
-		const { categoriaId } = ele.dataset
+		const { categoriaId } = ele.dataset		
+		ele.onclick = () =>{
+			if(categoriaId)	
+			idDivSeleccionado = categoriaId
+			const cuentosCategoria = document.getElementById(`div${idDivSeleccionado}`)	
+			
+			if(cuentosCategoria)			
+			while (cuentosCategoria.firstChild) {
+				cuentosCategoria.removeChild(cuentosCategoria.firstChild);
+			}						
 
-		ele.onclick = () =>{			
-			fetch (`/api/categorias/id=${categoriaId}`, {
+			fetch (`/api/categorias/${categoriaId}`, {
 				method: "POST",
 				headers:{
 					"Content-Type": "application/json",
 				},		
 				body: JSON.stringify({categoriaId}),
-			}).then(res => res.json()).then(response =>{
-				const cuentos = response.cuento
+			})
+			.then(res => res.json())
+			.then(response =>{
+				const cuentos = response.cuento		
+				const divCuentos = document.createElement("div")		
 				for (let index = 0; index < cuentos.length; index++) {					
 					let p = document.createElement("p")
-					p.appendChild(document.createTextNode(cuentos[index].nombre))					
-					cuentosCategoria?.appendChild(p)
+					p.appendChild(document.createTextNode(cuentos[index].nombre))						
+					divCuentos?.appendChild(p)
 				}				
+				cuentosCategoria?.appendChild(divCuentos)
 			})	
+			
 		}
 	})		
 </script>
