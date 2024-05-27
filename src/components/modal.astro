@@ -5,8 +5,7 @@ interface Props {
 	cuento: string;  
 }
 const { cuento } = Astro.props;
-
-const eleccion = await db.select().from(Cuento).where(eq (Cuento.nombre, cuento));
+const eleccion = await db.select().from(Cuento).where(eq (Cuento.id, cuento));
 ---
  <section id="modal" class="hidden">           
     <div class="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center ">
