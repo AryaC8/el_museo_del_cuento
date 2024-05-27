@@ -4,7 +4,7 @@ import { db, Cuento, eq } from 'astro:db';
 
 export const POST: APIRoute = async ({ url }) =>{
     const urlTotal =  url.pathname
-    const categoria = urlTotal.charAt(url.pathname.length-1)   
+    const categoria = urlTotal.split("/")[3]      
     let cuento 
     if(categoria)
         cuento = await db.select({nombre : Cuento.nombre}).from(Cuento).where(eq (Cuento.categoria, categoria));

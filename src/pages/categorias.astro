@@ -41,7 +41,7 @@ import { db, Cuento, Categoria, eq } from 'astro:db';
 			idDivSeleccionado = categoriaId
 			const cuentosCategoria = document.getElementById(`div${idDivSeleccionado}`)	
 			
-			if(cuentosCategoria)			
+			if(cuentosCategoria?.firstChild)			
 			while (cuentosCategoria.firstChild) {
 				cuentosCategoria.removeChild(cuentosCategoria.firstChild);
 			}						
