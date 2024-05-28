@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { db, Cuento, isDbError, like, CuentoDeseado } from 'astro:db';
+
+let cuento
+let cuentoNombre: string
+if (Astro.request.method === 'POST') { 
+  const formData: FormData = await Astro.request.formData();  
+  const nombre = formData.get('nombre');   
+  const tipoCuento = formData.get('busquedaCuento');    
+	try{		
+		if (typeof nombre === 'string' && tipoCuento === "Cuento") {	            							
+			 cuento = await db.select().from(Cuento).where(like (Cuento.nombre, nombre));			
+		}else if(typeof nombre === 'string' && tipoCuento === "CuentoDeseado") { 
+				cuento = await db.select().from(CuentoDeseado).where(like (CuentoDeseado.nombre, nombre));				
+		}		
+	}catch(e){
+		if (isDbError(e)) {
+			return new Response(e);
+		}
+	}	
+}
+
+
+cuento?.map((dato)=>{
+	cuentoNombre = dato.nombre
+})	
+
+---
+<Layout title= {cuentoNombre}>
+
+
+</Layout>

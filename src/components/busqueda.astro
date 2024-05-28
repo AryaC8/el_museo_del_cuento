@@ -1,69 +1,61 @@
 ---
-import { db, Cuento, isDbError, like, CuentoDeseado } from 'astro:db';
-import Search from '../../public/icons/search.astro';
 
-interface Props {
-	tipoCuento: string;  
-}
-const { tipoCuento } = Astro.props;
-
-let cuento 
-
-if (Astro.request.method === 'POST') { 
-  const formData: FormData = await Astro.request.formData();  
-  const nombre = formData.get('search');  
- 
-	try{		
-		if (typeof nombre === 'string' && tipoCuento === "Cuento") {	            							
-			cuento = await db.select().from(Cuento).where(like (Cuento.nombre, nombre));                    
-		 }//else if (typeof nombre === 'string' && tipoCuento === "CuentoDeseado") {	            							
-		// 	cuento = await db.select().from(CuentoDeseado).where(like (CuentoDeseado.nombre, nombre));                    
-		// }
-	}catch(e){
-		if (isDbError(e)) {
-			return new Response(e);
-		}
-	}
-}
 
 ---
-<section class="flex justify-end align-text-bottom" id="search">    
-        <form method="POST" class="flex">
-            <input class="w-48 rounded text-black text-base p-2" type="search" id="search-tale" name="search" placeholder="Buscar cuento">
-            <button class="rounded border-solid border-2 border-white" type="submit" id="buttonSearch"><Search /></button>
-        </form>  
-</section>
+<div class="mt-6 sm:mt-8 mb-8 flex justify-center space-x-6 text-sm">
+    <button type="button" id="botonBusqueda" class="hidden sm:flex items-center w-72 text-left space-x-3 px-4 h-12 bg-white ring-1 ring-slate-900/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-sm rounded-lg text-slate-400 dark:bg-slate-600 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-none text-slate-300 dark:text-slate-400" aria-hidden="true">
+            <path d="m19 19-3.5-3.5"></path><circle cx="11" cy="11" r="6"></circle>
+        </svg>
+        <span class="flex-auto">
+            <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">Busca el cuento</font>
+            </font>
+        </span>
+    </button>
+</div>
 
-<section class="hidden" id="secPopover">     
-    <table class="w-full m-5 table-auto text-base">
-        <thead class="border-colapse border-2 ">
-            <tr>
-                <th class="border border-slate-700">Portada</th>
-                <th class="border border-slate-700">Nombre</th>
-                <th class="border border-slate-700">Autora / Autor</th>
-                <th class="border border-slate-700">Editorial</th>            
-                <th class="border border-slate-700">Año</th>            
-                <th class="border border-slate-700">Añadido por</th>            
-                <th class="border border-slate-700">Lo tiene</th>            
-                <th class="border border-slate-700">A quién está prestado</th>                       
-            </tr>
-        </thead>
-        <tbody class="border-colapse border-2">       
-            {cuento?.map((dato)=>{
-                return <tr>
-                            <td class="border border-slate-700">{dato.anyo}</td>
-                            <td class="border border-slate-700">{dato.nombre}</td> 
-                            <td class="border border-slate-700">{dato.autor}</td> 
-                            <td class="border border-slate-700">{dato.editorial}</td>                      
-                            <td class="border border-slate-700">{dato.anyo}</td>                      
-                            <td class="border border-slate-700">{dato.categoria}</td>                      
-                            <td class="border border-slate-700">{dato.anyadidoPor}</td>                                             
-                            <td class="border border-slate-700">{dato.prestadoA}</td>                      
-                        </tr>                                            
-            })}    
-        </tbody>
-    </table>      
-</section>
+<section id="modalBusqueda" class="hidden">           
+    <div class="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center ">
+        <div class=" bg-slate-600 p-0 rounded items-center gap-5 w-5/12">
+            <div class="grid justify-end  m-0 p-0 h-5">
+                <button class="bg-slate-600 rounded-md font-bold mx-3 size-1 text-sm text-red-500" id="buttonCerrarBusqueda" type="reset">X</button> 
+            </div>  
+            <div class="grid justify-center items-center mb-10 mt-4">  
+                <form method="POST" action="/cuentoInfo/" class="grid">      
+                    <input class="bg-slate-500 rounded-md text-white border-2 border-slate-200 p-1 px-2 text-base" type="text" id="searchTale" name="nombre" placeholder="Nombre del cuento">                    
+                    <div class="grid justify-center mt-3 text-slate-300">
+                        <label>¿Dónde buscas?</label>
+                    </div>
+                    <div class="flex flex-cols-2 justify-around text-slate-300 text-base">
+                        <span class="mr-6">
+                            <input type="radio" name="busquedaCuento" id="cuentoDisponible" value= "Cuento">
+                            <label for="cuentoDisponible">Biblioteca</label>
+                        </span>
+                        <span>
+                            <input type="radio" name="busquedaCuento" id="cuentoDeseado" value="CuentoDeseado" checked>
+                            <label for="cuentoDeseado">Deseados</label>
+                        </span>
+                    </div>
+                </form>
+            </div>                   
+        </div>
+    </div> 
+</section> 
+
+<script>
+    const botonBusqueda = document.getElementById("botonBusqueda")
+    const modalBusqueda = document.getElementById("modalBusqueda")
+    const buttonCerrarBusqueda = document.getElementById("buttonCerrarBusqueda")    
+	botonBusqueda?.addEventListener("click", function(){
+        modalBusqueda?.classList.remove("hidden")
+	})
+    buttonCerrarBusqueda?.addEventListener("click", function(){
+        modalBusqueda?.classList.add("hidden")        
+	})	
+</script>
+
+
 
 
 
