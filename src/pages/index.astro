@@ -7,46 +7,52 @@ import Busqueda from '../components/busqueda.astro';
 import Modal from '../components/modal.astro'
 
 let nombreCuento: string = ""
+
+
 ---
 
 <Layout title="El museo del cuento">
 	<main>		
-		<Toolbar />	
-		<div class="flex ">
-			<Library />			
-			<h1>El <span class="text-gradient">museo</span> del <span class="text-gradient">cuento</span></h1>		
+		<Toolbar />				
+		<div class="grid justify-center mt-10" id="tituloBiblioteca">
+			<h2 class="text-slate-900 font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center"> Biblioteca de cuentos</h2>
+			<p class="mt-6 text-lg text-slate-800 text-center max-w-3xl mx-auto dark:text-slate-400">
+				Busca los cuentos disponibles en tu biblioteca personal: su información, quién los tiene... <br/> Si no los tienes (y los quieres)... apúntalos en deseados.📚
+			</p>
+			<Busqueda tipoCuento='Cuento'/>
 		</div>
-			<Busqueda tipoCuento='Cuento'/>		
-		<div class="flex justify-center mt-10">
-			<h2 class="text-5xl"><span class="text-gradient">Biblioteca</span></h2>
-		</div>
-		<div>
+		<!-- <div id="tabla" class="tabla"> 
 			<TablaCuentos tipoCuento='Cuento'/>
-		</div>			
-		<div id="modalDiv">
-			<Modal cuento=" "/>
-		</div>
-		
+		</div>			 -->
+		<!-- <Modal cuento= />	 -->
 	</main>
 </Layout>
 
-<script>      
-	const cuentos = document.querySelectorAll("button")
+<script> 
 	const modal = document.getElementById("modal")	
-	const modalDiv = document.getElementById("modalDiv")
-	const mod = document.getElementsByTagName("Modal")
+	const cuentos = document.querySelectorAll('[data-cuento-id]')
+	cuentos.forEach((ele)=>{
+		ele.addEventListener("click",  () =>{			
+			const nombreCuento = ele.id					
+			modal?.classList.remove("hidden")				
+		})	
+	})
+	
+    const secPopover = document.getElementById("secPopover")	
+    const buttonSearch = document.getElementById("buttonSearch")
+    const tabla = document.getElementById("tabla")	
+    const tituloBiblioteca = document.getElementById("tituloBiblioteca")	
+
+    buttonSearch?.addEventListener("click", ()=>{
+        secPopover?.classList.remove("hidden")
+        tabla?.classList.add("hidden")
+        tituloBiblioteca?.classList.add("hidden")
+    })
+</script>
+
+
 
 	
-
-	cuentos.forEach((ele)=>{
-		const { cuentoNombre } = ele.dataset
-		ele.addEventListener("click", ()=>{	
-			const tpl = `<Modal cuento='${cuentoNombre}'/>`
-			if(modalDiv){						
-				modal?.classList.remove("hidden")	
-			}			
-		})
-	})		
 </script>
 
 <style>	

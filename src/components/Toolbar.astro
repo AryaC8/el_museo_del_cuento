@@ -3,9 +3,13 @@ import Home from '../../public/icons/home.astro'
 import User from '../../public/icons/user.astro'
 import Category from '../../public/icons/category.astro'
 import Deseados from '../../public/icons/deseados.astro'
-
 ---
-<nav class="flex justify-around text-white p-3 mb-5">
+<nav class="relative flex flex-wrap space-x-8 mb-5">
+    <span class="flex">
+        <figure class="w-32">
+            <img src='/cuento.png' alt="El Museo del Cuento" class=""/>
+        </figure>
+    </span>  
     <span class="flex">
         <a href="/" target="_self" rel="noopener noreferrer nofollow"><Home /></a>        
         <a href="/" class="ml-1" target="_self" rel="noopener noreferrer nofollow">Inicio</a>
@@ -24,7 +28,7 @@ import Deseados from '../../public/icons/deseados.astro'
     </span>
     <span class="flex" id="add">
         <button>            
-            <a href="/add/" class="ml-1 bg-green-700 rounded-md px-2 py-1" target="_self" rel="noopener noreferrer nofollow">Añadir</a>
+            <a href="/add/" class="ml-1 bg-green-700 rounded-md px-1 py-0.5 text-white" target="_self" rel="noopener noreferrer nofollow">Añadir</a>
         </button>
     </span>       
 </nav>
