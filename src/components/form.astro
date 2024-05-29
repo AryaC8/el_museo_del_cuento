@@ -7,7 +7,7 @@ interface Props {
 const { estado } = Astro.props;
 const categoria = await db.select().from(Categoria);
 ---
-<form method="POST" class="grid space-y-2 text-lg" id="formLibro">
+<form method="POST" class="grid space-y-2 text-base" id="formLibro">
     <label for="portada">Imagen portada (copia enlace)</label>
     <input type="text" name="portada">
     <label for="nombre">Nombre del cuento</label>
@@ -54,27 +54,26 @@ const categoria = await db.select().from(Categoria);
             <input type="text" name="personaPrestado">
         </span>
     </div>
-
-    <div class="flex justify-center">
-        <input class="submit" type="submit" value="Añadir" id="add">
-    </div>	
+    <div class="flex flex-wrap justify-center mt-10">        
+        <input class="submit text-lg hover:bg-green-300 rounded-md" type="submit" value="Añadir" id="add">        
+    </div>  
 </form>
 
 <style>
     input, select {
         color:black; 
         border: 1px solid #000000;
+        border-radius: 5px;    
+        padding: 2px;
+        padding-left: 4px;    
     }
-    .submit{
-        background-image:linear-gradient(to right, rgb(0, 122, 31) , rgb(2, 128, 40));
-        border-radius: 10px;
-        border-color: rgb(0, 122, 31);
-        border-width: 1px;
-        box-shadow:0px 2px 5px 0 rgba(53, 233, 62, 0.274), 0 6px 20px 0 rgba(34, 170, 46, 0.404);
-        padding: 5px;
+    .submit{   
+        border-style: none ;   
+        text-decoration: underline;
+        padding: 3px;
         margin: 20px;
         color: black;
-        width: 100px;		
+        width: 70px;		
     }
     </style>
     

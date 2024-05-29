@@ -29,25 +29,25 @@ let nombreCuento: string = ""
 </Layout>
 
 <script> 
-	const modal = document.getElementById("modal")	
-	const cuentos = document.querySelectorAll('[data-cuento-id]')
-	cuentos.forEach((ele)=>{
-		ele.addEventListener("click",  () =>{			
-			const nombreCuento = ele.id					
-			modal?.classList.remove("hidden")				
-		})	
-	})
+	// const modal = document.getElementById("modal")	
+	// const cuentos = document.querySelectorAll('[data-cuento-id]')
+	// cuentos.forEach((ele)=>{
+	// 	ele.addEventListener("click",  () =>{			
+	// 		const nombreCuento = ele.id					
+	// 		modal?.classList.remove("hidden")				
+	// 	})	
+	// })
 	
-    const secPopover = document.getElementById("secPopover")	
-    const buttonSearch = document.getElementById("buttonSearch")
-    const tabla = document.getElementById("tabla")	
-    const tituloBiblioteca = document.getElementById("tituloBiblioteca")	
+    // const secPopover = document.getElementById("secPopover")	
+    // const buttonSearch = document.getElementById("buttonSearch")
+    // const tabla = document.getElementById("tabla")	
+    // const tituloBiblioteca = document.getElementById("tituloBiblioteca")	
 
-    buttonSearch?.addEventListener("click", ()=>{
-        secPopover?.classList.remove("hidden")
-        tabla?.classList.add("hidden")
-        tituloBiblioteca?.classList.add("hidden")
-    })
+    // buttonSearch?.addEventListener("click", ()=>{
+    //     secPopover?.classList.remove("hidden")
+    //     tabla?.classList.add("hidden")
+    //     tituloBiblioteca?.classList.add("hidden")
+    // })
 </script>
 
 
