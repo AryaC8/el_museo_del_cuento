@@ -22,21 +22,21 @@
                 <button class="bg-slate-600 rounded-md font-bold mx-3 size-1 text-sm text-red-500" id="buttonCerrarBusqueda" type="reset">X</button> 
             </div>  
             <div class="grid justify-center items-center mb-10 mt-4">  
-                <form method="POST" action="/cuentoInfo/" class="grid">      
-                    <input class="bg-slate-500 rounded-md text-white border-2 border-slate-200 p-1 px-2 text-base" type="text" id="searchTale" name="nombre" placeholder="Nombre del cuento">                    
-                    <div class="grid justify-center mt-3 text-slate-300">
+                <form method="POST" action="/cuentoInfo" class="grid">      
+                    <div class="grid justify-center text-slate-300">
                         <label>¿Dónde buscas?</label>
                     </div>
                     <div class="flex flex-cols-2 justify-around text-slate-300 text-base">
                         <span class="mr-6">
-                            <input type="radio" name="busquedaCuento" id="cuentoDisponible" value= "Cuento">
+                            <input type="radio" name="busquedaCuento" id="cuentoDisponible" value= "Cuento" checked>
                             <label for="cuentoDisponible">Biblioteca</label>
                         </span>
                         <span>
-                            <input type="radio" name="busquedaCuento" id="cuentoDeseado" value="CuentoDeseado" checked>
+                            <input type="radio" name="busquedaCuento" id="cuentoDeseado" value="CuentoDeseado">
                             <label for="cuentoDeseado">Deseados</label>
                         </span>
                     </div>
+                    <input class=" bg-slate-500 rounded-md text-white border-2 border-slate-200 p-1 px-2 text-base mt-4" type="text" id="searchTale" name="nombre" placeholder="Nombre del cuento">                    
                 </form>
             </div>                   
         </div>
