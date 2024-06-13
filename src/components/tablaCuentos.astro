@@ -15,29 +15,37 @@ if(tipoCuento === "CuentoDeseado"){
 }
 ---
 
-<table class="w-full m-5 table-auto border-separate border-spacing-2 border border-slate-500">
-    <thead class="border-colapse border-2">
+<table class="w-full m-5 table-auto border-separate border-spacing-2 border border-slate-500 text-sm">
+    <thead class="">
         <tr>
-            <th class="border border-slate-600">Portada</th>
-            <th class="border border-slate-600">Nombre</th>
-            <th class="border border-slate-600">Autora / Autor</th>
-            <th class="border border-slate-600">Editorial</th>            
-            <th class="border border-slate-600">Ver</th>            
+            <th class="">Portada</th>
+            <th class="">Nombre</th>
+            <th class="">Autora / Autor</th>
+            <th class="">Editorial</th>            
+            <th class="">Ver</th>            
         </tr>
     </thead>
-    <tbody class="border-colapse border-2">       
+    <tbody class="">       
         {cuentos?.map((cuento)=>{
             return <tr>                
-                        <td class="border border-slate-700 flex justify-center">
-                            <figure class="w-28 m-1">
+                        <td class="flex justify-center">
+                            <figure class="w-20 m-1">
                                 <img src= {cuento.portada} alt={cuento.nombre}/>
                             </figure>                           
                         </td>
-                        <td class="border border-slate-700"><div class="flex justify-center">{cuento.nombre}</div></td> 
-                        <td class="border border-slate-700"><div class="flex justify-center">{cuento.autor}</div></td> 
-                        <td class="border border-slate-700"><div class="flex justify-center">{cuento.editorial}</div></td>
-                        <td class="border border-slate-700"><button data-cuento-id id={cuento.id}><Book/></button></td>
-                    </tr>                           
+                        <td class=""><div class="flex justify-center">{cuento.nombre}</div></td> 
+                        <td class=""><div class="flex justify-center">{cuento.autor}</div></td> 
+                        <td class=""><div class="flex justify-center">{cuento.editorial}</div></td>
+                        <td class="">
+                            <div class="flex justify-center">                           
+                                <form method="POST" action="/cuentoInfo">
+                                    <input type="text"  name="nombre" value={cuento.nombre} class="hidden">
+                                    <input type="text" name="busquedaCuento" value={tipoCuento} class="hidden">
+                                <button data-cuento-id id={cuento.id} type="submit"><Book/></button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>                            
         })}    
     </tbody>
 </table>

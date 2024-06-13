@@ -1,14 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
-import Library from '../../public/icons/library.astro';
 import TablaCuentos from '../components/tablaCuentos.astro';
 import Busqueda from '../components/busqueda.astro';
-import Modal from '../components/modal.astro'
-
-let nombreCuento: string = ""
-
-
 ---
 
 <Layout title="El museo del cuento">
@@ -21,48 +15,11 @@ let nombreCuento: string = ""
 			</p>
 			<Busqueda tipoCuento='Cuento'/>
 		</div>
-		<!-- <div id="tabla" class="tabla"> 
+		<div id="tabla" class="tabla">
+			<h6 class="text-slate-900 font-extrabold text-lg sm:text-lg lg:text-xl tracking-tight text-center"> Listado </h6> 
 			<TablaCuentos tipoCuento='Cuento'/>
-		</div>			 -->
-		<!-- <Modal cuento= />	 -->
-	
+		</div>		
 </Layout>
 
-<script> 
-	// const modal = document.getElementById("modal")	
-	// const cuentos = document.querySelectorAll('[data-cuento-id]')
-	// cuentos.forEach((ele)=>{
-	// 	ele.addEventListener("click",  () =>{			
-	// 		const nombreCuento = ele.id					
-	// 		modal?.classList.remove("hidden")				
-	// 	})	
-	// })
-	
-    // const secPopover = document.getElementById("secPopover")	
-    // const buttonSearch = document.getElementById("buttonSearch")
-    // const tabla = document.getElementById("tabla")	
-    // const tituloBiblioteca = document.getElementById("tituloBiblioteca")	
-
-    // buttonSearch?.addEventListener("click", ()=>{
-    //     secPopover?.classList.remove("hidden")
-    //     tabla?.classList.add("hidden")
-    //     tituloBiblioteca?.classList.add("hidden")
-    // })
-</script>
-
-
-
-	
-</script>
-
-<style>	
-	h1 {
-		font-size: 4rem;
-		font-weight: 700;
-		line-height: 1;
-		text-align: center;
-		margin-bottom: 1em;		
-	}	
-</style>
 
 

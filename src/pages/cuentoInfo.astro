@@ -6,14 +6,16 @@ import { db, Cuento, isDbError, like, CuentoDeseado, Categoria, eq } from 'astro
 
 let cuentoElegido
 let cuentoNombre: string
-let categoriaCuento
+let cuentoDeseado: string
+ 
 
 if (Astro.request.method === 'POST') { 
   const formData: FormData = await Astro.request.formData();  
   const nombre = formData.get('nombre');   
   const tipoCuento = formData.get('busquedaCuento');    
-	try{		
-		if (typeof nombre === 'string' && tipoCuento === "Cuento") {	            							
+
+  try{		
+	  if (typeof nombre === 'string' && tipoCuento === "Cuento") {			
 			cuentoElegido = await db.select().from(Cuento).where(eq (Cuento.nombre, nombre));	
 			if(cuentoElegido?.length === 0){
 				cuentoNombre = "Sin datos"				
@@ -21,8 +23,9 @@ if (Astro.request.method === 'POST') {
 				cuentoElegido?.map((dato)=>{
 					cuentoNombre = dato.nombre					
 				})
-			}	 			
+			}			
 		}else if(typeof nombre === 'string' && tipoCuento === "CuentoDeseado") { 
+			cuentoDeseado = tipoCuento			
 			cuentoElegido = await db.select().from(CuentoDeseado).where(eq (CuentoDeseado.nombre, nombre));
 			if(cuentoElegido?.length === 0){
 				cuentoNombre = "Sin datos"
@@ -38,7 +41,7 @@ if (Astro.request.method === 'POST') {
 		}
 	}	
 }
-
+ 
 ---
 <Layout title= {cuentoNombre}>
 	<Toolbar />	
@@ -46,49 +49,64 @@ if (Astro.request.method === 'POST') {
 		{cuentoElegido?.map(dato=>{							
 			return (			
 				<h2 class="text-slate-900 font-extrabold text-2xl sm:text-5xl lg:text-4xl tracking-tight text-center mt-20">{dato.nombre}</h2>
-				<article class="grid grid-cols-2 justify-center mt-20 border rounded-md drop-shadow-lg">
+				<article class="grid grid-cols-2 justify-center mt-20 border rounded-md drop-shadow-lg w-11/12">
 					<div class="h-full">
-						<div class="h-full">
-							<figure class="m-1 h-full">
-									<img class="w-11/12 h-full rounded-md mb-1" src= "/cerditos.png" alt={dato.nombre}/>
+						<div class=" h-full">
+							<figure class="flex items-center m-1 h-full">
+									<img class="w-11/12 h-11/12 rounded-md mb-1 ml-2" src= "/cerditos.png" alt={dato.nombre}/>
 							</figure> 
 						</div>
 					</div>
-					<div>
+					<div class="grid items-center m-1 h-10/12">
 						<div class="">
-							<h6 class="font-bold text-base mt-1 mx-2">Nombre:</h6>
-							<p class="ml-20">{dato.nombre}</p>
+							<h6 class="font-bold text-sm mt-1 mx-2">Nombre:</h6>
+							<p class="ml-12 text-sm">{dato.nombre}</p>
 						</div>
 						<div class="">
-							<h6 class="font-bold text-base mt-1 mx-2">Autora o Autor:</h6>
-							<p class="ml-20">{dato.autor}</p>
+							<h6 class="font-bold text-sm  mx-2">Autora o Autor:</h6>
+							<p class="ml-12 text-sm">{dato.autor}</p>
 						</div>
 						<div class=" ">
-							<h6 class="font-bold text-base mt-1 mx-2">Editorial:</h6>
-							<p class="ml-20">{dato.editorial}</p>
+							<h6 class="font-bold text-sm  mx-2">Editorial:</h6>
+							<p class="ml-12 text-sm">{dato.editorial}</p>
 						</div>
 						<div class=" ">
-							<h6 class="font-bold text-base mt-1 mx-2">Año:</h6>
-							<p class="ml-20">{dato.anyo}</p>
+							<h6 class="font-bold text-sm  mx-2">Año:</h6>
+							<p class="ml-12 text-sm">{dato.anyo}</p>
 						</div>
 						<div class=" ">
-							<h6 class="font-bold text-base mt-1 mx-2">Categoría:</h6>
-							<p class="ml-20">{dato.categoria}</p>
+							<h6 class="font-bold text-sm  mx-2">Categoría:</h6>
+							<p class="ml-12 text-sm">{dato.categoria}</p>
 						</div>
 						<div class=" ">
-							<h6 class="font-bold text-base mt-1 mx-2">Propiedad de:</h6>
-							<p class="ml-20">{dato.anyadidoPor}</p>
+							<h6 class="font-bold text-sm  mx-2">Añadido por:</h6>
+							<p class="ml-12 text-sm">{dato.anyadidoPor}</p>
 						</div>
-						 {/* <div class=" ">
-							<h6 class="font-bold text-base mt-1 mx-2">Prestado a:</h6>
-							<p class="ml-20">{dato.prestadoA}</p>
-						</div>  */}
+						{/* {dato.prestadoA !=="" && !cuentoDeseado
+							?
+							<div class="">
+								<h6 class="font-bold text-sm  mx-2">Prestado a:</h6>
+								<p class="ml-12 text-sm">Hola</p>
+							</div> 
+							: 
+							<div class="hidden"></div>
+						}
+						{cuentoDeseado
+							?
+							<div class="">
+								<div class="grid justify-end">										
+									<a class="text-sm underline underline-offset-2 mr-2 hover:bg-green-300 rounded-md hover:cursor-pointer">Añadir a biblioteca</>									
+								</div>
+							</div> 
+							: 
+							<div class="hidden"></div>
+						} */}
 					</div>
 				</article>				
 			)			
-		})}
-		<div class="flex flex-wrap justify-center mt-10">
-			<span class="flex w-24  hover:bg-green-300 rounded-md">						  
+		})}		
+		<div class="flex flex-nowrap justify-center mt-10">
+			<span class="flex items-center w-24 hover:bg-green-300 rounded-md">						  
 				<a href="/" target="_self" rel="noopener noreferrer nofollow" ><ArrowBack /></a>         
 				<a href="/"target="_self" rel="noopener noreferrer nofollow" class="ml-1">Volver</a>
 			</span>					

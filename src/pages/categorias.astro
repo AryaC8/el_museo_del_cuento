@@ -13,13 +13,13 @@ import { db, Cuento, Categoria, eq } from 'astro:db';
 <Layout title="El museo del cuento - Categorías">
     
         <Toolbar />		
-		<section class="grid place-items-center h-[100vh]">
-			<div class="wrapper w-3/5">
+		<section class="grid place-items-center h-10/12">
+			<div class="wrapper w-2/5">
 				{categorias.map((cat) => 				
-					<div class="tab mb-3 px-5 bg-white shadow-sm rounded-md relative te items-center border-solid hover:bg-green-300 text-black">
+					<div class="tab px-2 bg-white shadow-sm rounded-md relative te items-center border-solid hover:bg-green-300 text-black">
 						<input class="appearance-none peer" type="radio" name="cat" id={cat.id} data-categoria-id={cat.id}/>
-						<label class="flex items-center text-lg font-semibold cursor-pointer
-						after:absolute after:text-2xl
+						<label class="flex items-center text-base font-semibold cursor-pointer
+						after:absolute after:text-lg
 						after:text-gray-500 hover:after:text-gray-800 peer-checked:after:transform peer-checked:after:rotate-45" for={cat.id}>
 							<h3>{cat.nombre}</h3>
 						</label>
@@ -57,10 +57,40 @@ import { db, Cuento, Categoria, eq } from 'astro:db';
 			.then(response =>{
 				const cuentos = response.cuento		
 				const divCuentos = document.createElement("div")		
-				for (let index = 0; index < cuentos.length; index++) {					
-					let p = document.createElement("p")
-					p.appendChild(document.createTextNode(cuentos[index].nombre))						
-					divCuentos?.appendChild(p)
+				for (let index = 0; index < cuentos.length; index++) {	
+					let div = document.createElement("div")	
+					div.classList.add("flex")
+					div.classList.add("justify-between")
+
+					let p = document.createElement("p")	
+					let form = document.createElement("form")
+					let inputNombre = document.createElement("input")
+					let inputTipoCuento = document.createElement("input")
+					let button = document.createElement("button")
+					let iconBook = document.createElement("img")
+					iconBook.src= "/favicon.svg"
+
+					inputNombre.classList.add("hidden")
+					inputTipoCuento.classList.add("hidden")
+					inputNombre.type="text"
+					inputTipoCuento.type="text"
+					inputNombre.name="nombre"
+					inputTipoCuento.name="busquedaCuento"
+					inputNombre.value= cuentos[index].nombre
+					inputTipoCuento.value= "Cuento"
+
+					button.type="submit"
+					button.appendChild(iconBook)					
+
+					form.action="/cuentoInfo"
+					form.method="POST"	
+					form.appendChild(inputNombre)
+					form.appendChild(inputTipoCuento)
+					form.appendChild(button)
+					p.appendChild(document.createTextNode(cuentos[index].nombre))	
+					div.appendChild(p)	
+					div.appendChild(form)				
+					divCuentos?.appendChild(div)					
 				}				
 				cuentosCategoria?.appendChild(divCuentos)
 			})	
