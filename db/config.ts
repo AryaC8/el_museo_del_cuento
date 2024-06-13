@@ -4,7 +4,7 @@ import { defineDb, defineTable, column } from 'astro:db';
 //   columns:{
 //     id: column.text({ primaryKey: true, optional: false, unique: true }),
 //     username: column.text(),
-//     password: column.text({ optional: true })
+//     password: column.text()
 //   }
 // })
 
