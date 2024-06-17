@@ -2,4 +2,4 @@
 
 
 
-Astro, react, tailwind, AstroDB
+Astro, tailwind, AstroDB
