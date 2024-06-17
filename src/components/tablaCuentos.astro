@@ -37,13 +37,24 @@ if(tipoCuento === "CuentoDeseado"){
                         <td class=""><div class="flex justify-center">{cuento.autor}</div></td> 
                         <td class=""><div class="flex justify-center">{cuento.editorial}</div></td>
                         <td class="">
-                            <div class="flex justify-center">                           
-                                <form method="POST" action="/cuentoInfo">
-                                    <input type="text"  name="nombre" value={cuento.nombre} class="hidden">
-                                    <input type="text" name="busquedaCuento" value={tipoCuento} class="hidden">
-                                <button data-cuento-id id={cuento.id} type="submit"><Book/></button>
-                                </form>
-                            </div>
+                            {tipoCuento === "Cuento"
+                                ?
+                                <div class="flex justify-center">                           
+                                    <form method="POST" action={`/cuento/${cuento.nombre}`}>
+                                        <input type="text"  name="nombre" value={cuento.nombre} class="hidden">
+                                        <input type="text" name="busquedaCuento" value={tipoCuento} class="hidden">
+                                    <button data-cuento-id id={cuento.id} type="submit"><Book/></button>
+                                    </form>
+                                </div>
+                                :
+                                <div class="flex justify-center">                           
+                                    <form method="POST" action={`/deseado/${cuento.nombre}`}>
+                                        <input type="text"  name="nombre" value={cuento.nombre} class="hidden">
+                                        <input type="text" name="busquedaCuento" value={tipoCuento} class="hidden">
+                                    <button data-cuento-id id={cuento.id} type="submit"><Book/></button>
+                                    </form>
+                                </div>
+                            }
                         </td>
                     </tr>                            
         })}    

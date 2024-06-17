@@ -1,0 +1,78 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Toolbar from '../../components/Toolbar.astro';
+import ArrowBack from '../../../public/icons/arrowBack.astro'
+import { db, eq, Categoria, CuentoDeseado} from 'astro:db';
+
+export async function getStaticPaths()  {
+    const cuentosDeseados = await db.select().from(CuentoDeseado)    
+    return cuentosDeseados.map(cuentoDes =>{
+        return {
+            params: {nombreDeseado: cuentoDes.nombre},            
+        }
+    });
+} 
+const {nombreDeseado} = Astro.params
+const cuentoElegido =  await db.select().from(CuentoDeseado).innerJoin(Categoria, eq(CuentoDeseado.categoria, Categoria.id)).where(eq (CuentoDeseado.nombre, nombreDeseado));
+---
+<Layout title= {nombreDeseado}>
+	<Toolbar />	
+	<section>		
+		{cuentoElegido?.map(({ CuentoDeseado , Categoria })=>{							
+			return (			
+				<h2 class="text-slate-900 font-extrabold text-2xl sm:text-5xl lg:text-4xl tracking-tight text-center mt-20">{CuentoDeseado.nombre}</h2>
+				<article class="grid grid-cols-2 justify-center mt-20 border rounded-md drop-shadow-lg w-11/12">
+					<div class="h-full">
+						<div class=" h-full">
+							<figure class="flex items-center m-1 h-full">
+									<img class="w-11/12 h-11/12 rounded-md mb-1 ml-2" src= "/cerditos.png" alt={CuentoDeseado.nombre}/>
+							</figure> 
+						</div>
+					</div>
+					<div class="grid items-center m-1 h-10/12">
+						<div class="">
+							<h6 class="font-bold text-sm mt-1 mx-2">Nombre:</h6>
+							<p class="ml-12 text-sm">{CuentoDeseado.nombre}</p>
+						</div>
+						<div class="">
+							<h6 class="font-bold text-sm  mx-2">Autora o Autor:</h6>
+							<p class="ml-12 text-sm">{CuentoDeseado.autor}</p>
+						</div>
+						<div class=" ">
+							<h6 class="font-bold text-sm  mx-2">Editorial:</h6>
+							<p class="ml-12 text-sm">{CuentoDeseado.editorial}</p>
+						</div>
+						<div class=" ">
+							<h6 class="font-bold text-sm  mx-2">Año:</h6>
+							<p class="ml-12 text-sm">{CuentoDeseado.anyo}</p>
+						</div>
+						<div class=" ">
+							<h6 class="font-bold text-sm  mx-2">Categoría:</h6>
+							<p class="ml-12 text-sm">{Categoria.nombre}</p>
+						</div>
+						<div class=" ">
+							<h6 class="font-bold text-sm  mx-2">Añadido por:</h6>
+							<p class="ml-12 text-sm">{CuentoDeseado.anyadidoPor}</p>
+						</div>	
+						<div class="flex justify-end">							
+							<a href={`/add/${CuentoDeseado.id}`} target="_self" rel="noopener noreferrer nofollow" class="ml-1 text-sm underline hover:bg-green-300">Añadir a biblioteca</a>							
+						</div>										
+					</div>
+				</article>				
+				<div class="flex flex-nowrap justify-end mt-4 w-11/12">
+					<span class="flex items-center hover:bg-red-300 rounded-md">				         
+						<a href={`/modificar/${CuentoDeseado.id}`} target="_self" rel="noopener noreferrer nofollow" class="ml-1 text-lg underline">Modificar</a>
+					</span>					
+				</div>
+			)			
+		})}	
+
+		<div class="flex flex-nowrap justify-center mt-10">
+			<span class="flex items-center w-24 hover:bg-green-300 rounded-md">						  
+				<a href="/" target="_self" rel="noopener noreferrer nofollow" ><ArrowBack /></a>         
+				<a href="/"target="_self" rel="noopener noreferrer nofollow" class="ml-1">Volver</a>
+			</span>					
+		</div>
+	</section>
+
+</Layout>

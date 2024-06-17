@@ -1,0 +1,131 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Toolbar from '../../components/Toolbar.astro';
+import { db, Cuento, isDbError, Categoria, eq, CuentoDeseado } from 'astro:db';
+
+export async function getStaticPaths()  {
+    const cuentos = await db.select().from(CuentoDeseado)    
+    return cuentos.map(cuento =>{
+        return {
+            params: {idDeseado: CuentoDeseado.id},            
+        }
+    });
+} 
+const {idDeseado} = Astro.params
+
+const categoria = await db.select().from(Categoria);
+
+const cuentoElegido =  await db.select().from(CuentoDeseado).innerJoin(Categoria, eq(CuentoDeseado.categoria, Categoria.id)).where(eq (CuentoDeseado.id, idDeseado));
+
+let prestado: boolean
+
+if (Astro.request.method === 'POST') {    
+  const formData: FormData = await Astro.request.formData(); 
+  const portada = formData.get('portada'); 
+  const nombre = formData.get('nombre');
+  const id = idDeseado
+  const autor = formData.get('autor');
+  const editorial = formData.get('editorial');
+  const anyo = formData.get('anyo');
+  const categoria = formData.get('categoria');
+  const anyadidoPor = formData.get('quienLoAnyade');
+  const quienLoTiene = formData.get('quienLoTiene');
+  const estaPrestado = formData.get('estaPrestado');
+  let prestadoA = formData.get('personaPrestado');   
+  
+  try{		
+      if (typeof id === 'string' && typeof portada === 'string' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && typeof quienLoTiene === 'string' && typeof estaPrestado === 'string' && typeof prestadoA === 'string') {
+            prestado = estaPrestado == "true" ? true : false
+            prestado ? prestadoA : prestadoA=""	            	
+		    await db.insert(Cuento).values({ id, portada, nombre, autor, editorial, anyo, categoria, anyadidoPor, quienLoTiene, prestado, prestadoA }); 
+            await db.delete(CuentoDeseado).where(eq (CuentoDeseado.id, idDeseado))                
+		}
+	}catch(e){
+		if (isDbError(e)) {
+			return new Response(e);
+		}
+	}
+} 
+---
+<Layout title= `Modificar datos`>
+    <Toolbar />	
+
+    <section>		
+        <form method="POST" class="grid space-y-2 text-base" id="formLibro">
+            {cuentoElegido?.map(({ CuentoDeseado, Categoria })=>{		
+                return(
+                        <label for="portada">Imagen portada (copia enlace)</label>
+                        <input type="text" name="portada" value={`${CuentoDeseado.portada}`} required>
+                        <label for="nombre">Nombre del cuento</label>
+                        <input type="text" name="nombre" value={`${CuentoDeseado.nombre}`} required>
+                        <label for="autor">Autora o autor</label>
+                        <input type="text" name="autor" value={`${CuentoDeseado.autor}`} required>
+                        <label for="editorial">Editorial</label>
+                        <input type="text" name="editorial" value={`${CuentoDeseado.editorial}`} required>
+                        <label for="anyo">Año</label>
+                        <input type="text" name="anyo" value={`${CuentoDeseado.anyo}`} required>
+                        <label for="categoria">Categoría</label>
+                        <select name="categoria" id="categoria">
+                            <option value={`${CuentoDeseado.categoria}`} selected>{`${Categoria.nombre}`}</option>
+                            {
+                                categoria.map((cat)=>{
+                                    return(                    
+                                        <option value={cat.id}>{cat.nombre}</option>                 
+                                    )             
+                                })
+                            }
+                        </select>        
+                        <label for="quienLoAnyade">Añadido por</label>
+                        <input type="text" name="quienLoAnyade" value={`${CuentoDeseado.anyadidoPor}`} required>  
+                        <label for="quienLoTiene">Quien lo tiene</label>
+                        <input type="text" name="quienLoTiene" value="" required> 
+
+                        
+                        <label for="estaPrestado">Prestado</label>    
+                           
+                            
+                        <input type="text" name="estaPrestado" value=""> 
+
+                        <div id="aQuienEstaPrestado" class="">
+                            <span class="grid space-y-2">
+                                <label for="personaPrestado">¿A quién?</label>
+                                <input type="text" name="personaPrestado" value="">
+                            </span>
+                        </div>
+            <div class="flex flex-wrap justify-center mt-10">        
+                <input class="submit text-lg hover:bg-green-300 rounded-md" type="submit" value="Añadir" id="add">        
+            </div>             
+                )                
+            })}		
+        </form>
+        {cuentoElegido?.map(({ CuentoDeseado })=>{	
+            return(
+                <div class="flex justify-center bg-blue-500 hover:bg-blue-300 rounded-md">                           
+                        <form method="POST" action={`/cuento/${CuentoDeseado.nombre}`}>
+                            <input type="text"  name="nombre" value={CuentoDeseado.nombre} class="hidden">
+                            <input type="text" name="busquedaCuento" value="CuentoDeseado" class="hidden">
+                        <button data-cuento-id id={CuentoDeseado.id} type="submit">Volver</button>
+                        </form>
+                    </div>
+            )                
+        })}	
+</Layout>
+
+<style>
+    input, select {
+        color:black; 
+        border: 1px solid #000000;
+        border-radius: 5px;    
+        padding: 2px;
+        padding-left: 4px;    
+    }
+    .submit{   
+        border-style: none ;   
+        text-decoration: underline;
+        padding: 3px;
+        margin: 20px;
+        color: black;
+        width: 80px;		
+    }
+    </style>
+    
