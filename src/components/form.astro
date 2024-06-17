@@ -9,17 +9,17 @@ const categoria = await db.select().from(Categoria);
 ---
 <form method="POST" class="grid space-y-2 text-base" id="formLibro">
     <label for="portada">Imagen portada (copia enlace)</label>
-    <input type="text" name="portada">
+    <input type="text" name="portada" required>
     <label for="nombre">Nombre del cuento</label>
-    <input type="text" name="nombre">
+    <input type="text" name="nombre" required>
     <label for="autor">Autora o autor</label>
-    <input type="text" name="autor">
+    <input type="text" name="autor" required>
     <label for="editorial">Editorial</label>
-    <input type="text" name="editorial">
+    <input type="text" name="editorial" required>
     <label for="anyo">Año</label>
-    <input type="text" name="anyo">
+    <input type="text" name="anyo" required>
     <label for="categoria">Categoría</label>
-    <select name="categoria" id="categoria">
+    <select name="categoria" id="categoria" required>
         <option value="" disabled selected>Selecciona una categoría</option>
         {
             categoria.map((cat)=>{
@@ -30,11 +30,11 @@ const categoria = await db.select().from(Categoria);
         }
     </select>        
     <label for="quienLoAnyade">Añadido por</label>
-    <input type="text" name="quienLoAnyade">    
+    <input type="text" name="quienLoAnyade" required>    
     <div class=`${estado}`>
         <span class="grid space-y-2 text-lg">
             <label for="quienLoTiene">Lo tiene</label>
-            <input type="text" name="quienLoTiene">
+            <input type="text" name="quienLoTiene" required>
         </span>
         <label>¿Está prestado a alguien?</label>
         <div class="flex flex-cols-2 justify-around">
