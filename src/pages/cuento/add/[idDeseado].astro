@@ -1,6 +1,6 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Toolbar from '../../components/Toolbar.astro';
+import Layout from '../../../layouts/Layout.astro';
+import Toolbar from '../../../components/Toolbar.astro';
 import { db, Cuento, isDbError, Categoria, eq, CuentoDeseado } from 'astro:db';
 
 export async function getStaticPaths()  {
@@ -101,7 +101,7 @@ if (Astro.request.method === 'POST') {
         {cuentoElegido?.map(({ CuentoDeseado })=>{	
             return(
                 <div class="flex justify-center bg-blue-500 hover:bg-blue-300 rounded-md">                           
-                        <form method="POST" action={`/cuento/${CuentoDeseado.nombre}`}>
+                        <form method="POST" action={`/cuento/infoDeseado/${CuentoDeseado.nombre}`}>
                             <input type="text"  name="nombre" value={CuentoDeseado.nombre} class="hidden">
                             <input type="text" name="busquedaCuento" value="CuentoDeseado" class="hidden">
                         <button data-cuento-id id={CuentoDeseado.id} type="submit">Volver</button>

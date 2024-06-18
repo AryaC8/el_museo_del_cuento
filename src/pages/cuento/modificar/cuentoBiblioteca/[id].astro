@@ -1,6 +1,6 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Toolbar from '../../components/Toolbar.astro';
+import Layout from '../../../../layouts/Layout.astro';
+import Toolbar from '../../../../components/Toolbar.astro';
 import { db, Cuento, isDbError, Categoria, eq } from 'astro:db';
 
 export async function getStaticPaths()  {
@@ -18,6 +18,7 @@ const categoria = await db.select().from(Categoria);
 const cuentoElegido =  await db.select().from(Cuento).innerJoin(Categoria, eq(Cuento.categoria, Categoria.id)).where(eq (Cuento.id, id));
 
 let prestado: boolean
+let estado : string
 
 if (Astro.request.method === 'POST') {    
   const formData: FormData = await Astro.request.formData(); 
@@ -29,13 +30,14 @@ if (Astro.request.method === 'POST') {
   const categoria = formData.get('categoria');
   const anyadidoPor = formData.get('quienLoAnyade');
   const quienLoTiene = formData.get('quienLoTiene');
-  const estaPrestado = formData.get('estaPrestado');
-  let prestadoA = formData.get('personaPrestado');   
-  
+  const estaPrestado = formData.get('prestado');
+  let prestadoA = formData.get('personaPrestado');
+    	
   try{		
       if (typeof portada === 'string' && typeof nombre === 'string' && typeof autor === 'string' && typeof editorial === 'string' && typeof anyo === 'string' && typeof categoria === 'string' && typeof anyadidoPor === 'string' && typeof quienLoTiene === 'string' && typeof estaPrestado === 'string' && typeof prestadoA === 'string') {
             prestado = estaPrestado == "true" ? true : false
             prestado ? prestadoA : prestadoA=""	
+            prestado ? estado=prestadoA  : estado="hidden"
 		    await db.update(Cuento).set({ id:id, portada:portada, nombre:nombre, autor:autor, editorial:editorial, anyo:anyo, categoria:categoria, anyadidoPor:anyadidoPor, quienLoTiene:quienLoTiene, prestado:prestado, prestadoA:prestadoA }).where(eq (Cuento.id, id)) 
                             
 		}
@@ -48,7 +50,6 @@ if (Astro.request.method === 'POST') {
 ---
 <Layout title= `Modificar datos`>
     <Toolbar />	
-
     <section>		
         <form method="POST" class="grid space-y-2 text-base" id="formLibro">
             {cuentoElegido?.map(({ Cuento, Categoria })=>{		
@@ -78,19 +79,25 @@ if (Astro.request.method === 'POST') {
                         <input type="text" name="quienLoAnyade" value={`${Cuento.anyadidoPor}`} required>  
                         <label for="quienLoTiene">Quien lo tiene</label>
                         <input type="text" name="quienLoTiene" value={`${Cuento.quienLoTiene}`} required> 
-
-                        
-                        <label for="estaPrestado">Prestado</label>    
-                           
-                            
-                        <input type="text" name="estaPrestado" value={`${Cuento.prestado}`} required> 
-
-                        <div id="aQuienEstaPrestado" class="">
-                            <span class="grid space-y-2">
-                                <label for="personaPrestado">¿A quién?</label>
-                                <input type="text" name="personaPrestado" value={`${Cuento.prestadoA}`}>
-                            </span>
+                        <div class={estado}>                            
+                            <label>¿Está prestado a alguien?</label>
+                            <div class="flex flex-cols-2 justify-around">
+                                <span>
+                                    <input type="radio" name="prestado" id="prestadoSi" value= "true">
+                                    <label for="prestadoSi">Está prestado</label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="prestado" id="prestadoNo" value="false" checked>
+                                    <label for="prestadoNo">No está prestado</label>
+                                </span>
+                            </div>
                         </div>
+                        <div id="aQuienEstaPrestado" class="hidden">
+                            <span class="grid space-y-2 text-lg">
+                                <label for="personaPrestado">¿A quién?</label>
+                                <input type="text" name="personaPrestado">
+                            </span>
+                        </div>                       
             <div class="flex flex-wrap justify-center mt-10">        
                 <input class="submit text-lg hover:bg-green-300 rounded-md" type="submit" value="Modificar" id="mod">        
             </div>             
@@ -100,7 +107,7 @@ if (Astro.request.method === 'POST') {
         {cuentoElegido?.map(({ Cuento })=>{	
             return(
                 <div class="flex justify-center bg-blue-500 hover:bg-blue-300 rounded-md">                           
-                        <form method="POST" action={`/cuento/${Cuento.nombre}`}>
+                        <form method="POST" action={`/cuento/infoCuento/${Cuento.nombre}`}>
                             <input type="text"  name="nombre" value={Cuento.nombre} class="hidden">
                             <input type="text" name="busquedaCuento" value="Cuento" class="hidden">
                         <button data-cuento-id id={Cuento.id} type="submit">Volver</button>
@@ -127,4 +134,20 @@ if (Astro.request.method === 'POST') {
         width: 80px;		
     }
     </style>
-   
+    <script>
+	let prestado = document.getElementsByName("prestado")	
+	let aQuienEstaPrestado = document.getElementById("aQuienEstaPrestado")
+
+	cambiarVisibilidadSeccionDependiendoDePrestado()
+
+	function cambiarVisibilidadSeccionDependiendoDePrestado() {
+		prestado[0].addEventListener("change", function(){
+			aQuienEstaPrestado?.classList.remove("hidden")
+		})
+
+		prestado[1].addEventListener("change", function(){
+			aQuienEstaPrestado?.classList.add("hidden")
+		})
+	}
+	
+</script>

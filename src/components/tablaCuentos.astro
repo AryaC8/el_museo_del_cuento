@@ -40,7 +40,7 @@ if(tipoCuento === "CuentoDeseado"){
                             {tipoCuento === "Cuento"
                                 ?
                                 <div class="flex justify-center">                           
-                                    <form method="POST" action={`/cuento/${cuento.nombre}`}>
+                                    <form method="POST" action={`/cuento/infoCuento/${cuento.nombre}`}>
                                         <input type="text"  name="nombre" value={cuento.nombre} class="hidden">
                                         <input type="text" name="busquedaCuento" value={tipoCuento} class="hidden">
                                     <button data-cuento-id id={cuento.id} type="submit"><Book/></button>
@@ -48,7 +48,7 @@ if(tipoCuento === "CuentoDeseado"){
                                 </div>
                                 :
                                 <div class="flex justify-center">                           
-                                    <form method="POST" action={`/deseado/${cuento.nombre}`}>
+                                    <form method="POST" action={`/cuento/infoDeseado/${cuento.nombre}`}>
                                         <input type="text"  name="nombre" value={cuento.nombre} class="hidden">
                                         <input type="text" name="busquedaCuento" value={tipoCuento} class="hidden">
                                     <button data-cuento-id id={cuento.id} type="submit"><Book/></button>

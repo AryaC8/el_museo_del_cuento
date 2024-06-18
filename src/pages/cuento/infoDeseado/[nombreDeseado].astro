@@ -1,7 +1,7 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Toolbar from '../../components/Toolbar.astro';
-import ArrowBack from '../../../public/icons/arrowBack.astro'
+import Layout from '../../../layouts/Layout.astro';
+import Toolbar from '../../../components/Toolbar.astro';
+import ArrowBack from '../../../../public/icons/arrowBack.astro'
 import { db, eq, Categoria, CuentoDeseado} from 'astro:db';
 
 export async function getStaticPaths()  {
@@ -55,15 +55,15 @@ const cuentoElegido =  await db.select().from(CuentoDeseado).innerJoin(Categoria
 							<p class="ml-12 text-sm">{CuentoDeseado.anyadidoPor}</p>
 						</div>	
 						<div class="flex justify-end">							
-							<a href={`/add/${CuentoDeseado.id}`} target="_self" rel="noopener noreferrer nofollow" class="ml-1 text-sm underline hover:bg-green-300">Añadir a biblioteca</a>							
+							<a href={`/cuento/add/${CuentoDeseado.id}`} target="_self" rel="noopener noreferrer nofollow" class="ml-1 text-sm underline hover:bg-green-300">Añadir a biblioteca</a>							
 						</div>										
 					</div>
 				</article>				
-				// <div class="flex flex-nowrap justify-end mt-4 w-11/12">
-				// 	<span class="flex items-center hover:bg-red-300 rounded-md">				         
-				// 		<a href={`/modificar/${CuentoDeseado.id}`} target="_self" rel="noopener noreferrer nofollow" class="ml-1 text-lg underline">Modificar</a>
-				// 	</span>					
-				// </div>
+				<div class="flex flex-nowrap justify-end mt-4 w-11/12">
+					<span class="flex items-center hover:bg-red-300 rounded-md">				         
+						<a href={`/cuento/modificar/cuentoDeseado/${CuentoDeseado.id}`} target="_self" rel="noopener noreferrer nofollow" class="ml-1 text-lg underline">Modificar</a>
+					</span>					
+				</div>
 			)			
 		})}	
 
