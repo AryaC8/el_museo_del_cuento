@@ -30,7 +30,7 @@ if (Astro.request.method === 'POST') {
   const categoria = formData.get('categoria');
   const anyadidoPor = formData.get('quienLoAnyade');
   const quienLoTiene = formData.get('quienLoTiene');
-  const estaPrestado = formData.get('estaPrestado');
+  const estaPrestado = formData.get('prestado');
   let prestadoA = formData.get('personaPrestado');   
   
   try{		
@@ -78,20 +78,24 @@ if (Astro.request.method === 'POST') {
                         <label for="quienLoAnyade">Añadido por</label>
                         <input type="text" name="quienLoAnyade" value={`${CuentoDeseado.anyadidoPor}`} required>  
                         <label for="quienLoTiene">Quien lo tiene</label>
-                        <input type="text" name="quienLoTiene" value="" required> 
-
-                        
-                        <label for="estaPrestado">Prestado</label>    
-                           
-                            
-                        <input type="text" name="estaPrestado" value=""> 
-
-                        <div id="aQuienEstaPrestado" class="">
-                            <span class="grid space-y-2">
-                                <label for="personaPrestado">¿A quién?</label>
-                                <input type="text" name="personaPrestado" value="">
+                        <input type="text" name="quienLoTiene" value="" required>                                               
+                        <label>¿Está prestado a alguien?</label>
+                        <div class="flex flex-cols-2 justify-around">
+                            <span>
+                                <input type="radio" name="prestado" id="prestadoSi" value= "true">
+                                <label for="prestadoSi">Está prestado</label>
                             </span>
-                        </div>
+                            <span>
+                                <input type="radio" name="prestado" id="prestadoNo" value="false" checked>
+                                <label for="prestadoNo">No está prestado</label>
+                            </span>
+                        </div>                       
+                        <div id="aQuienEstaPrestado" class="hidden">
+                            <span class="grid space-y-2 text-lg">
+                                <label for="personaPrestado">¿A quién?</label>
+                                <input type="text" name="personaPrestado">
+                            </span>
+                        </div>                       
             <div class="flex flex-wrap justify-center mt-10">        
                 <input class="submit text-lg hover:bg-green-300 rounded-md" type="submit" value="Añadir" id="add">        
             </div>             
@@ -101,7 +105,7 @@ if (Astro.request.method === 'POST') {
         {cuentoElegido?.map(({ CuentoDeseado })=>{	
             return(
                 <div class="flex justify-center bg-blue-500 hover:bg-blue-300 rounded-md">                           
-                        <form method="POST" action={`/cuento/infoDeseado/${CuentoDeseado.nombre}`}>
+                        <form method="POST" action={`/cuento/infoCuento/${CuentoDeseado.nombre}`}>
                             <input type="text"  name="nombre" value={CuentoDeseado.nombre} class="hidden">
                             <input type="text" name="busquedaCuento" value="CuentoDeseado" class="hidden">
                         <button data-cuento-id id={CuentoDeseado.id} type="submit">Volver</button>
@@ -128,4 +132,20 @@ if (Astro.request.method === 'POST') {
         width: 80px;		
     }
     </style>
-    
+    <script>
+	let prestado = document.getElementsByName("prestado")	
+	let aQuienEstaPrestado = document.getElementById("aQuienEstaPrestado")
+
+	cambiarVisibilidadSeccionDependiendoDePrestado()
+
+	function cambiarVisibilidadSeccionDependiendoDePrestado() {
+		prestado[0].addEventListener("change", function(){
+			aQuienEstaPrestado?.classList.remove("hidden")
+		})
+
+		prestado[1].addEventListener("change", function(){
+			aQuienEstaPrestado?.classList.add("hidden")
+		})
+	}
+	
+</script>

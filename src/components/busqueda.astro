@@ -61,9 +61,9 @@ const { tipoCuento } = Astro.props;
 
     form?.addEventListener("keydown", ()=>{  
         if(buscar === "Cuento") 
-            form.action = `/cuento/${inputNombre.value}`
+            form.action = `/cuento/infoCuento/${inputNombre.value}`
         else if(buscar === "CuentoDeseado")
-            form.action = `/deseado/${inputNombre.value}`
+            form.action = `/cuento/infoDeseado/${inputNombre.value}`
     })
 
 	botonBusqueda?.addEventListener("click", function(){
