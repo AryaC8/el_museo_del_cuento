@@ -14,11 +14,15 @@ export async function getStaticPaths()  {
 } 
 const {nombreCuento} = Astro.params
 const cuentoElegido =  await db.select().from(Cuento).innerJoin(Categoria, eq(Cuento.categoria, Categoria.id)).where(eq (Cuento.nombre, nombreCuento));
+
+console.log(cuentoElegido.length)
 ---
 <Layout title= {nombreCuento}>
 	<Toolbar />	
 	<section>		
-		{cuentoElegido?.map(({ Cuento , Categoria })=>{							
+		{cuentoElegido.length !== 0
+		?
+		cuentoElegido?.map(({ Cuento , Categoria })=>{							
 			return (			
 				<h2 class="text-slate-900 font-extrabold text-2xl sm:text-5xl lg:text-4xl tracking-tight text-center mt-20">{Cuento.nombre}</h2>
 				<article class="grid grid-cols-2 justify-center mt-20 border rounded-md drop-shadow-lg w-11/12">
@@ -70,8 +74,13 @@ const cuentoElegido =  await db.select().from(Cuento).innerJoin(Categoria, eq(Cu
 						<a href={`/cuento/modificar/cuentoBiblioteca/${Cuento.id}`} target="_self" rel="noopener noreferrer nofollow" class="ml-1 text-lg underline">Modificar</a>
 					</span>					
 				</div>
-			)			
-		})}	
+			)				
+		})
+		:
+		<div class="flex flex-nowrap justify-center mt-10">
+			<h2 class="text-black p-1 border border-red-400 bg-red-300">Sin resultados</h2>
+		</div>
+	}	
 
 		<div class="flex flex-nowrap justify-center mt-10">
 			<span class="flex items-center w-24 hover:bg-green-300 rounded-md">						  

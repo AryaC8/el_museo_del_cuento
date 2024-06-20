@@ -18,7 +18,9 @@ const cuentoElegido =  await db.select().from(CuentoDeseado).innerJoin(Categoria
 <Layout title= {nombreDeseado}>
 	<Toolbar />	
 	<section>		
-		{cuentoElegido?.map(({ CuentoDeseado , Categoria })=>{							
+		{cuentoElegido.length !== 0
+		?
+		cuentoElegido?.map(({ CuentoDeseado , Categoria })=>{							
 			return (			
 				<h2 class="text-slate-900 font-extrabold text-2xl sm:text-5xl lg:text-4xl tracking-tight text-center mt-20">{CuentoDeseado.nombre}</h2>
 				<article class="grid grid-cols-2 justify-center mt-20 border rounded-md drop-shadow-lg w-11/12">
@@ -65,7 +67,12 @@ const cuentoElegido =  await db.select().from(CuentoDeseado).innerJoin(Categoria
 					</span>					
 				</div>
 			)			
-		})}	
+		})
+		:
+		<div class="flex flex-nowrap justify-center mt-10">
+			<h1 class="text-black p-1 border border-red-400 bg-red-300">Sin resultados</h1>
+		</div>	
+	}	
 
 		<div class="flex flex-nowrap justify-center mt-10">
 			<span class="flex items-center w-24 hover:bg-green-300 rounded-md">						  
