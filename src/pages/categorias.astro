@@ -82,7 +82,7 @@ import { db, Cuento, Categoria, eq } from 'astro:db';
 					button.type="submit"
 					button.appendChild(iconBook)					
 
-					form.action="/cuentoInfo"
+					form.action="/cuento/infoCuento/" + cuentos[index].nombre
 					form.method="POST"	
 					form.appendChild(inputNombre)
 					form.appendChild(inputTipoCuento)
