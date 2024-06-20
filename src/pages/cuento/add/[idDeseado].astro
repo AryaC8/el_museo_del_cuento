@@ -38,7 +38,8 @@ if (Astro.request.method === 'POST') {
             prestado = estaPrestado == "true" ? true : false
             prestado ? prestadoA : prestadoA=""	            	
 		    await db.insert(Cuento).values({ id, portada, nombre, autor, editorial, anyo, categoria, anyadidoPor, quienLoTiene, prestado, prestadoA }); 
-            await db.delete(CuentoDeseado).where(eq (CuentoDeseado.id, idDeseado))                
+            await db.delete(CuentoDeseado).where(eq (CuentoDeseado.id, idDeseado)) 
+            return Astro.redirect(`/cuento/infoCuento/${nombre}`)               
 		}
 	}catch(e){
 		if (isDbError(e)) {
@@ -105,7 +106,7 @@ if (Astro.request.method === 'POST') {
         {cuentoElegido?.map(({ CuentoDeseado })=>{	
             return(
                 <div class="flex justify-center bg-blue-500 hover:bg-blue-300 rounded-md">                           
-                        <form method="POST" action={`/cuento/infoCuento/${CuentoDeseado.nombre}`}>
+                        <form method="POST" action={`/cuento/infoDeseado/${CuentoDeseado.nombre}`}>
                             <input type="text"  name="nombre" value={CuentoDeseado.nombre} class="hidden">
                             <input type="text" name="busquedaCuento" value="CuentoDeseado" class="hidden">
                         <button data-cuento-id id={CuentoDeseado.id} type="submit">Volver</button>

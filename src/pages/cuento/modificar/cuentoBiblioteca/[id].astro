@@ -39,7 +39,7 @@ if (Astro.request.method === 'POST') {
             prestado ? prestadoA : prestadoA=""	
             prestado ? estado=prestadoA  : estado="hidden"
 		    await db.update(Cuento).set({ id:id, portada:portada, nombre:nombre, autor:autor, editorial:editorial, anyo:anyo, categoria:categoria, anyadidoPor:anyadidoPor, quienLoTiene:quienLoTiene, prestado:prestado, prestadoA:prestadoA }).where(eq (Cuento.id, id)) 
-                            
+            return Astro.redirect(`/cuento/infoCuento/${nombre}`)                
 		}
 	}catch(e){
 		if (isDbError(e)) {
