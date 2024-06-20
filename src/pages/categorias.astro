@@ -1,13 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Toolbar from '../components/Toolbar.astro';
-import { db, Cuento, Categoria, eq } from 'astro:db';
+import { db, Categoria } from 'astro:db';
 
-
- const categorias = await db.select().from(Categoria);
- 
-// const cuentosCat = await db.select().from(Cuento).where(eq (Cuento.categoria, categoria))
-//const cuentos = await db.select().from(Cuento).innerJoin(Categoria, eq(Cuento.categoria, Categoria.id));
+const categorias = await db.select().from(Categoria);
 ---
 
 <Layout title="El museo del cuento - Categorías">

@@ -1,7 +1,6 @@
 import type { APIRoute } from "astro";
 import { db, Cuento, eq } from 'astro:db';
 
-
 export const POST: APIRoute = async ({ url }) =>{
     const urlTotal =  url.pathname
     const categoria = urlTotal.split("/")[3]      
