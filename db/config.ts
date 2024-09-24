@@ -8,13 +8,13 @@ import { defineDb, defineTable, column } from 'astro:db';
 //   }
 // })
 
-//const Session = defineTable ({
+// const Session = defineTable ({
 //  columns:{
 //    id: column.text({optional: false, unique: true}),
-//    userId: cloumn.text({ optional: false, references: () => User.columns.id }),
+//    userId: column.text({ optional: false, references: () => User.columns.id }),
 //    expiresAt: column.number({ optional: false })
 //  }  
-//})
+// })
 
 const Cuento = defineTable({
   columns:{
@@ -58,7 +58,7 @@ export default defineDb({
     Cuento,
     CuentoDeseado, 
     // User, 
-    //Session,
+    // Session,
     Categoria
   }
 });
