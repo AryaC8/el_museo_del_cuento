@@ -14,6 +14,7 @@ export async function getStaticPaths()  {
 } 
 const {nombreDeseado} = Astro.params
 const cuentoElegido =  await db.select().from(CuentoDeseado).innerJoin(Categoria, eq(CuentoDeseado.categoria, Categoria.id)).where(eq (CuentoDeseado.nombre, nombreDeseado));
+export const prerender = true;
 ---
 <Layout title= {nombreDeseado}>
 	<Toolbar />	
